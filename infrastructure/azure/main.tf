@@ -1,8 +1,8 @@
 locals {
-  project = "tfaz"
+  project = "terraform-packer"
 
   tags = {
-    Environment = "Test"
+    Environment = local.project
   }
 }
 
