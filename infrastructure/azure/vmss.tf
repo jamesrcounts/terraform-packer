@@ -4,7 +4,7 @@ locals {
 
 resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
   admin_username              = local.admin_username
-  instances                   = 2
+  instances                   = 0
   location                    = azurerm_resource_group.main.location
   name                        = "vmss-${local.project}"
   overprovision               = false
@@ -28,9 +28,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
       name      = "internal"
       primary   = true
       subnet_id = azurerm_subnet.internal.id
+
       public_ip_address {
-        name                = "public"
-        public_ip_prefix_id = azurerm_public_ip_prefix.pib.id
+        idle_timeout_in_minutes = 4
+        name                    = "public"
+        public_ip_prefix_id     = azurerm_public_ip_prefix.pib.id
       }
     }
   }
@@ -55,6 +57,34 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
   lifecycle {
     ignore_changes = [tags]
   }
+}
+
+resource "azurerm_virtual_machine_scale_set_extension" "oms_agent" {
+  auto_upgrade_minor_version   = true
+  name                         = "OMSExtension"
+  publisher                    = "Microsoft.EnterpriseCloud.Monitoring"
+  type                         = "OmsAgentForLinux"
+  type_handler_version         = "1.4"
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.azp_agents.id
+
+  settings = jsonencode({
+    "azureResourceId" : azurerm_linux_virtual_machine_scale_set.azp_agents.id
+    "stopOnMultipleConnections" : true
+    "workspaceId" : azurerm_log_analytics_workspace.insights.workspace_id
+  })
+
+  protected_settings = jsonencode({
+    "workspaceKey" : azurerm_log_analytics_workspace.insights.primary_shared_key
+  })
+}
+
+resource "azurerm_virtual_machine_scale_set_extension" "dependency_agent" {
+  auto_upgrade_minor_version   = true
+  name                         = "DependencyAgentLinux"
+  publisher                    = "Microsoft.Azure.Monitoring.DependencyAgent"
+  type                         = "DependencyAgentLinux"
+  type_handler_version         = "9.5"
+  virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.azp_agents.id
 }
 
 resource "azurerm_public_ip_prefix" "pib" {
