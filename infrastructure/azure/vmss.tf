@@ -1,5 +1,9 @@
-resource "azurerm_linux_virtual_machine_scale_set" "agents" {
-  admin_username              = "adminuser"
+locals {
+  admin_username = "azp"
+}
+
+resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
+  admin_username              = local.admin_username
   instances                   = 2
   location                    = azurerm_resource_group.main.location
   name                        = "vmss-${local.project}"
@@ -12,29 +16,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "agents" {
   upgrade_mode                = "Manual"
 
   admin_ssh_key {
-    username   = "adminuser"
+    username   = local.admin_username
     public_key = tls_private_key.key.public_key_openssh
   }
 
-
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
-  }
-
-  os_disk {
-    storage_account_type = "Standard_LRS"
-    caching              = "ReadOnly"
-    diff_disk_settings {
-      option = "Local"
-    }
-
-  }
-
   network_interface {
-    name    = "example"
+    name    = "primary"
     primary = true
 
     ip_configuration {
@@ -46,6 +33,27 @@ resource "azurerm_linux_virtual_machine_scale_set" "agents" {
         public_ip_prefix_id = azurerm_public_ip_prefix.pib.id
       }
     }
+  }
+
+  os_disk {
+    storage_account_type = "Standard_LRS"
+    caching              = "ReadOnly"
+    disk_size_gb         = 86
+
+    diff_disk_settings {
+      option = "Local"
+    }
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+
+  lifecycle {
+    ignore_changes = [tags]
   }
 }
 

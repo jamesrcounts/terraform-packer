@@ -1,5 +1,8 @@
 default: apply
 
+connect:
+	terraform init -get=false
+
 fmt:
 	terraform fmt -recursive
 
@@ -9,5 +12,5 @@ init:
 validate:
 	terraform validate
 
-apply: fmt init validate
+apply: fmt connect validate
 	terraform apply

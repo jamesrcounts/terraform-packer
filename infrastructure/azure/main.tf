@@ -2,7 +2,7 @@ locals {
   project = "terraform-packer"
 
   tags = {
-    Environment = local.project
+    project = local.project
   }
 }
 
