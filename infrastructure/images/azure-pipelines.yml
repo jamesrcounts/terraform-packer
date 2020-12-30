@@ -27,7 +27,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          $ImageType = "${{ parameters.image_type }}"
+          $ImageType = "$(image_type)"
           $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
           $TemplateDirectoryPath = Join-Path "images" $TemplateDirectoryName | Resolve-Path
           $TemplatePath = Join-Path $TemplateDirectoryPath "$ImageType.json"
@@ -61,7 +61,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "${{ parameters.image_readme_name }}")
+          Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "$(image_readme_name)")
   
     - task: PowerShell@2
       displayName: 'Print provisioners duration'
@@ -81,7 +81,7 @@ jobs:
                           -Organization $(RELEASE_TARGET_ORGANIZATION) `
                           -DefinitionId $(RELEASE_TARGET_DEFINITION_ID) `
                           -Project $(RELEASE_TARGET_PROJECT) `
-                          -ImageName ${{ parameters.image_type }} `
+                          -ImageName $(image_type) `
                           -AccessToken $(RELEASE_TARGET_TOKEN)
   
     - task: PowerShell@2
@@ -93,6 +93,6 @@ jobs:
         arguments: -ResourcesNamePrefix $(Build.BuildId) `
                        -ClientId $(CLIENT_ID) `
                        -ClientSecret $(CLIENT_SECRET) `
-                       -Image ${{ parameters.image_type }} `
+                       -Image $(image_type) `
                        -SubscriptionId $(AZURE_SUBSCRIPTION) `
                        -TenantId $(AZURE_TENANT)
