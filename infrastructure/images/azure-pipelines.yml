@@ -29,7 +29,7 @@ jobs:
         script: |
           $ImageType = "$(image_type)"
           $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
-          $TemplateDirectoryPath = Join-Path "images" $TemplateDirectoryName | Resolve-Path
+          $TemplateDirectoryPath = Join-Path "infrastructure/images" $TemplateDirectoryName | Resolve-Path
           $TemplatePath = Join-Path $TemplateDirectoryPath "$ImageType.json"
           Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
           Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
