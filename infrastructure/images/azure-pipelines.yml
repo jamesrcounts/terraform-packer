@@ -38,7 +38,7 @@ jobs:
       displayName: 'Build VM'
       inputs:
         targetType: filePath
-        filePath: ./images.CI/linux-and-win/build-image.ps1
+        filePath: ./infrastructure/images/build-image.ps1
         arguments: -ResourcesNamePrefix $(Build.BuildId) `
                           -ClientId $(CLIENT_ID) `
                           -ClientSecret $(CLIENT_SECRET) `
