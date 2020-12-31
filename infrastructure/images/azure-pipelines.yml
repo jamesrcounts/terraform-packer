@@ -33,22 +33,22 @@ jobs:
       inputs:
         targetType: 'inline'
         script: 'sudo bash ./infrastructure/images/linux/scripts/base/repos.sh'
-        
-    - task: Bash@3
-      displayName: 'Install Azure CLI'
-      inputs:
-        targetType: 'inline'
-        script: |
-          set -euox pipefail 
-          
-          export HELPER_SCRIPTS=./infrastructure/images/linux/scripts/helpers
-          sudo -E bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh
-  
+
+    # Azure CLI install script requires Powershell
     - task: Bash@3
       displayName: 'Install Powershell'
       inputs:
         targetType: 'inline'
         script: 'sudo bash ./infrastructure/images/linux/scripts/installers/powershellcore.sh'
+
+    - task: Bash@3
+      displayName: 'Install Azure CLI'
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo -E bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh
+  
+
 
     - task: AzureCLI@2
       displayName: 'Set image template variables'

@@ -3,8 +3,6 @@
 ##  File:  azure-cli.sh
 ##  Desc:  Installed Azure CLI (az)
 ################################################################################
-set -euox pipefail 
-
 source $HELPER_SCRIPTS/invoke-tests.sh
 
 # Install Azure CLI (instructions taken from https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
