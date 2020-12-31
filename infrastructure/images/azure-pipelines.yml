@@ -34,7 +34,7 @@ jobs:
         targetType: 'inline'
         script: |
           sudo mkdir -p /imagegeneration/tests
-          sudo cp -Rv ./infrastructure/images/linux/scripts/tests/* /imagegeneration/tests/*
+          sudo cp -Rv ./infrastructure/images/linux/scripts/tests/* /imagegeneration/tests/
 
     - task: Bash@3
       displayName: 'Install Microsoft Package Sources'
