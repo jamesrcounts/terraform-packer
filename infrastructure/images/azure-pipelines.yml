@@ -19,8 +19,7 @@ jobs:
     displayName: Image Generation
     timeoutInMinutes: 600
     cancelTimeoutInMinutes: 30
-    pool:
-      vmImage: 'ubuntu-latest'
+    pool: 'VMSS'
   
     steps:      
     - checkout: self
