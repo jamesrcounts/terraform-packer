@@ -30,13 +30,13 @@ resource "azuredevops_variable_group" "variablegroup" {
   }
 
   variable {
-    name  = "BUILD_AGENT_VNET_SUBNET_NAME"
+    name  = "BUILD_AGENT_SUBNET_NAME"
     value = "internal"
   }
 
-  # variable {
-  #   name         = "Account Password"
-  #   secret_value = "p@ssword123"
-  #   is_secret    = true
-  # }
+  variable {
+    is_secret = true
+    name      = "GITHUB_TOKEN"
+    value     = local.github_pat
+  }
 }

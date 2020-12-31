@@ -9,6 +9,12 @@ variable "client_secret" {
   type        = string
 }
 
+variable "github_pat" {
+  description = "GitHub Personal Access Token"
+  sensitive   = true
+  type        = string
+}
+
 variable "subscription_id" {
   description = "Subscription ID for the AzureRM Service Connection"
   type        = string
