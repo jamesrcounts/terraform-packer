@@ -9,6 +9,8 @@ pr:
 
 variables:
   - group: terraform-packer
+  - name: HELPER_SCRIPTS
+    value: ./infrastructure/images/linux/scripts/helpers
   - name: image_type
     value: ubuntu2004
   - name: image_readme_name
