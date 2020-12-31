@@ -31,7 +31,19 @@ jobs:
       inputs:
         targetType: 'inline'
         script: 'sudo bash ./infrastructure/images/linux/scripts/base/repos.sh'
-  
+        
+    - task: Bash@3
+      displayName: 'Install Azure CLI'
+      inputs:
+        targetType: 'inline'
+        script: 'sudo bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh'
+
+    - task: Bash@3
+      displayName: 'Install Powershell'
+      inputs:
+        targetType: 'inline'
+        script: 'sudo bash ./infrastructure/images/linux/scripts/installers/powershellcore.sh'
+
     - task: AzureCLI@2
       displayName: 'Set image template variables'
       inputs:
