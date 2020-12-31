@@ -9,6 +9,11 @@ resource "azuredevops_variable_group" "variablegroup" {
     value = "rg-${local.project}"
   }
 
+  variable {
+    name  = "AZURE_STORAGE_ACCOUNT"
+    value = "saterraformpackerpackerd"
+  }
+
   # variable {
   #   name         = "Account Password"
   #   secret_value = "p@ssword123"
