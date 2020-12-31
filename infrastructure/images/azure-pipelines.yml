@@ -24,6 +24,11 @@ jobs:
     steps:      
     - checkout: self
       fetchDepth: 1
+
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: 'curl -L https://aka.ms/InstallAzureCli | bash'
   
     - task: AzureCLI@2
       displayName: 'Set image template variables'
