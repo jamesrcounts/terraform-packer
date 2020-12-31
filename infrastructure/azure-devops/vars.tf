@@ -1,4 +1,20 @@
-variable "tenant_id" {
+variable "client_id" {
+  description = "Service Principal ID for the AzureRM Service Connection"
   type        = string
-  description = "Tenant ID for the AzureRM service connection"
+}
+
+variable "client_secret" {
+  description = "Password for the AzureRM Service Connection"
+  sensitive   = true
+  type        = string
+}
+
+variable "subscription_id" {
+  description = "Subscription ID for the AzureRM Service Connection"
+  type        = string
+}
+
+variable "tenant_id" {
+  description = "Tenant ID for the AzureRM Service Connection"
+  type        = string
 }
