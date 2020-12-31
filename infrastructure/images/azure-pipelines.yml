@@ -57,8 +57,10 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          sudo -E sh -c 'pwsh -f ./infrastructure/images/linux/scripts/installers/Install-PowerShellModules.ps1'
-          sudo -E sh -c 'pwsh -f ./infrastructure/images/linux/scripts/installers/Install-AzureModules.ps1'
+          sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-Toolset.ps1'
+          sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Configure-Toolset.ps1'
+          sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-PowerShellModules.ps1'
+          sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-AzureModules.ps1'
 
     - task: Bash@3
       displayName: 'Install Azure CLI'
