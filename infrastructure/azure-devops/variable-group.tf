@@ -1,17 +1,17 @@
-# resource "azuredevops_variable_group" "variablegroup" {
-#   project_id   = azuredevops_project.project.id
-#   name         = "Test Variable Group"
-#   description  = "Test Variable Group Description"
-#   allow_access = true
+resource "azuredevops_variable_group" "variablegroup" {
+  project_id   = azuredevops_project.project.id
+  name         = local.project
+  description  = "Variables for ${local.project} packer pipelines"
+  allow_access = false
 
-#   variable {
-#     name  = "key"
-#     value = "value"
-#   }
+  variable {
+    name  = "AZURE_RESOURCE_GROUP"
+    value = "rg-${local.project}"
+  }
 
-#   variable {
-#     name         = "Account Password"
-#     secret_value = "p@ssword123"
-#     is_secret    = true
-#   }
-# }
+  # variable {
+  #   name         = "Account Password"
+  #   secret_value = "p@ssword123"
+  #   is_secret    = true
+  # }
+}
