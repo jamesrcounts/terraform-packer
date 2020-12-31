@@ -39,6 +39,8 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
+          set -euox pipefail 
+          
           export HELPER_SCRIPTS=./infrastructure/images/linux/scripts/helpers
           sudo bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh
   
