@@ -38,10 +38,10 @@ jobs:
       displayName: 'Install Azure CLI'
       inputs:
         targetType: 'inline'
-        script: 'sudo bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh'
-      env:
-        HELPER_SCRIPTS: ./infrastructure/images/linux/scripts/helpers
-
+        script: |
+          export HELPER_SCRIPTS=./infrastructure/images/linux/scripts/helpers
+          sudo bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh
+  
     - task: Bash@3
       displayName: 'Install Powershell'
       inputs:
