@@ -26,10 +26,17 @@ jobs:
       fetchDepth: 1
 
     - task: Bash@3
+      displayName: 'Install Azure CLI'
       inputs:
         targetType: 'inline'
         script: 'curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash'
   
+    - task: Bash@3
+      displayName: 'Install PowerShell'
+      inputs:
+        targetType: 'inline'
+        script: 'apt-get install -y powershell'
+
     - task: AzureCLI@2
       displayName: 'Set image template variables'
       inputs:
