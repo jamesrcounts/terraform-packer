@@ -19,6 +19,13 @@ resource "azuredevops_variable_group" "variablegroup" {
     value = "centralus"
   }
 
+  variable {
+    name  = "BUILD_AGENT_VNET_NAME"
+    value = "network-terraform-packer"
+  }
+
+
+
   # variable {
   #   name         = "Account Password"
   #   secret_value = "p@ssword123"
