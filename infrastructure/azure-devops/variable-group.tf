@@ -35,6 +35,11 @@ resource "azuredevops_variable_group" "variablegroup" {
   }
 
   variable {
+    name  = "PRIVATE_VIRTUAL_NETWORK_WITH_PUBLIC_IP"
+    value = true
+  }
+
+  variable {
     is_secret = true
     name      = "GITHUB_TOKEN"
     value     = local.github_pat

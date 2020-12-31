@@ -65,28 +65,6 @@ jobs:
       env:
         PACKER_LOG: 1
         PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
-
-    # - task: PowerShell@2
-    #   displayName: 'Build VM'
-    #   inputs:
-    #     targetType: filePath
-    #     filePath: ./infrastructure/images/build-image.ps1
-    #     arguments: -ResourcesNamePrefix $(Build.BuildId) `
-    #                       -ClientId $(CLIENT_ID) `
-    #                       -ClientSecret $(CLIENT_SECRET) `
-    #                       -TemplatePath $(TemplatePath) `
-    #                       -ResourceGroup $(AZURE_RESOURCE_GROUP) `
-    #                       -StorageAccount $(AZURE_STORAGE_ACCOUNT) `
-    #                       -SubscriptionId $(AZURE_SUBSCRIPTION) `
-    #                       -TenantId $(AZURE_TENANT) `
-    #                       -Location $(AZURE_LOCATION) `
-    #                       -VirtualNetworkName $(BUILD_AGENT_VNET_NAME) `
-    #                       -VirtualNetworkRG $(BUILD_AGENT_VNET_RESOURCE_GROUP) `
-    #                       -VirtualNetworkSubnet $(BUILD_AGENT_SUBNET_NAME) `
-    #                       -GitHubFeedToken $(GITHUB_TOKEN)
-    #   env:
-    #     PACKER_LOG: 1
-    #     PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
   
     - task: PowerShell@2
       displayName: 'Output Readme file content'
