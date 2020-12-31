@@ -42,8 +42,7 @@ jobs:
           set -euox pipefail 
           
           export HELPER_SCRIPTS=./infrastructure/images/linux/scripts/helpers
-          echo $HELPER_SCRIPTS
-          sudo bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh
+          sudo -E bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh
   
     - task: Bash@3
       displayName: 'Install Powershell'
