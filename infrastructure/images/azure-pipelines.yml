@@ -49,6 +49,15 @@ jobs:
         targetType: 'inline'
         script: 'sudo bash ./infrastructure/images/linux/scripts/installers/powershellcore.sh'
 
+    # Test scripts require these modules
+    - task: Bash@3
+      displayName: 'Install Powershell Modules'
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo -E sh -c 'pwsh -f ./infrastructure/images/linux/scripts/installers/Install-PowerShellModules.ps1'
+          sudo -E sh -c 'pwsh -f ./infrastructure/images/linux/scripts/installers/Install-AzureModules.ps1'
+
     - task: Bash@3
       displayName: 'Install Azure CLI'
       inputs:
