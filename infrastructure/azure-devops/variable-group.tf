@@ -24,7 +24,15 @@ resource "azuredevops_variable_group" "variablegroup" {
     value = "network-terraform-packer"
   }
 
+  variable {
+    name  = "BUILD_AGENT_VNET_RESOURCE_GROUP"
+    value = "rg-${local.project}"
+  }
 
+  variable {
+    name  = "BUILD_AGENT_VNET_SUBNET_NAME"
+    value = "internal"
+  }
 
   # variable {
   #   name         = "Account Password"
