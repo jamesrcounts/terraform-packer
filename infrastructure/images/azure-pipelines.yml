@@ -8,6 +8,7 @@ pr:
     - main
 
 variables:
+  - group: terraform-packer
   - name: image_type
     value: ubuntu2004
   - name: image_readme_name
