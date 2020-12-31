@@ -29,7 +29,8 @@ jobs:
     - task: Bash@3
       displayName: 'Install Microsoft Package Sources'
       inputs:
-        filePath: 'infrastructure/images/linux/scripts/base/repos.sh'
+        targetType: 'inline'
+        script: 'sudo bash ./infrastructure/images/linux/scripts/base/repos.sh'
   
     - task: AzureCLI@2
       displayName: 'Set image template variables'
