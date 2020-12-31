@@ -28,7 +28,7 @@ jobs:
     - task: Bash@3
       inputs:
         targetType: 'inline'
-        script: 'curl -L https://aka.ms/InstallAzureCli | bash'
+        script: 'curl -L https://aka.ms/InstallAzureCli | sed -e ''/_TTY/d'' | bash'
   
     - task: AzureCLI@2
       displayName: 'Set image template variables'
