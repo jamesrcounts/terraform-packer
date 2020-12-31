@@ -25,18 +25,12 @@ jobs:
     - checkout: self
       fetchDepth: 1
 
+    # Bootstrap packer build environment
     - task: Bash@3
-      displayName: 'Install Azure CLI'
+      displayName: 'Install Microsoft Package Sources'
       inputs:
-        targetType: 'inline'
-        script: 'curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash'
+        filePath: 'infrastructure/images/linux/scripts/base/repos.sh'
   
-    - task: Bash@3
-      displayName: 'Install PowerShell'
-      inputs:
-        targetType: 'inline'
-        script: 'sudo apt-get update && sudo apt-get install -y powershell'
-
     - task: AzureCLI@2
       displayName: 'Set image template variables'
       inputs:
