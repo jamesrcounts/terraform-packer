@@ -42,13 +42,13 @@ jobs:
         scriptLocation: 'scriptPath'
         scriptPath: './infrastructure/images/build-image.ps1'
         arguments: -ResourcesNamePrefix $(Build.BuildId) `
-                          -ClientId $(env:servicePrincipalId) `
-                          -ClientSecret $(env:servicePrincipalKey) `
+                          -ClientId $env:servicePrincipalId `
+                          -ClientSecret $env:servicePrincipalKey `
                           -TemplatePath $(TemplatePath) `
                           -ResourceGroup $(AZURE_RESOURCE_GROUP) `
                           -StorageAccount $(AZURE_STORAGE_ACCOUNT) `
                           -SubscriptionId $(AZURE_SUBSCRIPTION) `
-                          -TenantId $(env:tenantId) `
+                          -TenantId $env:tenantId `
                           -Location $(AZURE_LOCATION) `
                           -VirtualNetworkName $(BUILD_AGENT_VNET_NAME) `
                           -VirtualNetworkRG $(BUILD_AGENT_VNET_RESOURCE_GROUP) `
