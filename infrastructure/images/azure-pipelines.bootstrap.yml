@@ -18,6 +18,8 @@ stages:
         variables:
           - name: image_folder
             value: /imagegeneration
+          - name: template_dir 
+            value: ./infrastructure/images/linux
         steps:
           - checkout: self
             fetchDepth: 1
@@ -30,6 +32,12 @@ stages:
                 set -euox pipefail
                 sudo -E sh -c 'mkdir $(image_folder)',
                 sudo -E sh -c 'chmod 777  $(image_folder)',
+
+          - task: Bash@3
+            displayName: 'BASE: apt-mock'
+            inputs:
+              targetType: 'inline'
+              script: 'sudo -E sh -c "$(template_dir)/scripts/base/apt-mock.sh"'
 
           #    {
           #     "variables": {
@@ -84,11 +92,7 @@ stages:
           #     ],
           #     "provisioners": [
 
-          #         {
-          #             "type": "shell",
-          #             "script": "{{template_dir}}/scripts/base/apt-mock.sh",
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
+
           #         {
           #             "type": "shell",
           #             "scripts": [
