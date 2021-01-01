@@ -73,7 +73,7 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          sudo -E sh -c $(INSTALLER_SCRIPT_FOLDER)/azure-cli.sh
+          sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/azure-cli.sh
           sudo chmod -R 744 /home/AzDevOps
 
     - task: AzureCLI@2
