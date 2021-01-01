@@ -20,6 +20,8 @@ stages:
         variables:
           - name: base_dir
             value: $(template_dir)/scripts/base
+          - name: helper_script_folder
+            value: $(image_folder)/helpers
           - name: image_folder
             value: /imagegeneration
           - name: template_dir 
@@ -71,7 +73,17 @@ stages:
               targetType: 'inline'
               script: 'sudo -E sh -c "$(base_dir)/limits.sh"'
 
-                        
+          - task: Bash@3
+            displayName: 'Create helper folder'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                sudo -E sh -c 'mkdir $(helper_script_folder)'
+                sudo -E sh -c 'cp -Rv $(template_dir)/scripts/helpers/* $(helper_script_folder)'
+                sudo -E sh -c 'chmod -Rv 777  $(helper_script_folder)/*'
+
+                                        
           - task: AzureCLI@2
             displayName: 'Set image template variables'
             inputs:
@@ -104,7 +116,7 @@ stages:
           #         "private_virtual_network_with_public_ip": "{{env `PRIVATE_VIRTUAL_NETWORK_WITH_PUBLIC_IP`}}",
           #         "imagedata_file": "/imagegeneration/imagedata.json",
           #         "installer_script_folder": "/imagegeneration/installers",
-          #         "helper_script_folder": "/imagegeneration/helpers",
+          #         
           #         "vm_size": "Standard_D4s_v4",
           #         "capture_name_prefix": "packer",
           #         "image_version": "dev",
@@ -145,11 +157,7 @@ stages:
 
 
 
-          #         {
-          #             "type": "file",
-          #             "source": "{{template_dir}}/scripts/helpers",
-          #             "destination": "{{user `helper_script_folder`}}"
-          #         },
+
           #         {
           #             "type": "file",
           #             "source": "{{template_dir}}/scripts/installers",
