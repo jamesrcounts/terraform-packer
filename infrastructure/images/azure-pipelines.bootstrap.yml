@@ -252,6 +252,9 @@ stages:
                 do
                   sudo -E sh -c "$(installer_script_folder)/${SCRIPT}"
                 done
+
+                # AZ CLI task fails without this.
+                sudo chmod -Rv 755 /home/AzDevOps
             env:
                 HELPER_SCRIPTS: $(helper_script_folder)
 
