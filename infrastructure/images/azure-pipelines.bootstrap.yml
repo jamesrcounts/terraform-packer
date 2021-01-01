@@ -244,7 +244,6 @@ stages:
                                     "rndgenerator.sh"
                                     "swig.sh"
                                     "netlify.sh"
-                                    "android.sh"
                                     "pypy.sh"
                                     "python.sh"
                                     )
