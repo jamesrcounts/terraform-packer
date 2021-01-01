@@ -47,7 +47,7 @@ jobs:
       displayName: 'Install Microsoft Package Sources'
       inputs:
         targetType: 'inline'
-        script: 'sudo sh -c ./infrastructure/images/linux/scripts/base/repos.sh'
+        script: 'sudo sh -c ''./infrastructure/images/linux/scripts/base/repos.sh'''
 
 
     # Azure CLI install script requires Powershell
