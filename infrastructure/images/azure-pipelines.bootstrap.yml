@@ -187,7 +187,6 @@ stages:
                                     "ansible.sh"
                                     "azcopy.sh"
                                     "azure-cli.sh"
-                                    "azure-devops-cli.sh"
                                     "basic.sh"
                                     "aliyun-cli.sh"
                                     "aws.sh"
