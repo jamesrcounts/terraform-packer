@@ -8,6 +8,8 @@ variables:
   - group: terraform-packer
   - name: DEBIAN_FRONTEND
     value: noninteractive
+  - name: toolset_version
+    value: 1804
 
 stages:
   - stage: 'Bootstrap'
@@ -122,6 +124,14 @@ stages:
                 sudo -E sh -c 'cp -Rv $(template_dir)/scripts/SoftwareReport/* $(image_folder)'
                 # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
 
+          - task: Bash@3
+            displayName: 'Copy toolset manifest'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                sudo -E sh -c 'cp -Rv $(template_dir)/toolsets/toolset-$(toolset_version).json $(installer_script_folder)/toolset.json'
+                # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
                                   
           - task: AzureCLI@2
             displayName: 'Set image template variables'
@@ -193,11 +203,7 @@ stages:
 
 
 
-          #         {
-          #             "type": "file",
-          #             "source": "{{template_dir}}/toolsets/toolset-1804.json",
-          #             "destination": "{{user `installer_script_folder`}}/toolset.json"
-          #         },
+
           #         {
           #             "type": "shell",
           #             "scripts": [
