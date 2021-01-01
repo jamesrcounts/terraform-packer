@@ -6,6 +6,8 @@ trigger:
 
 variables:
   - group: terraform-packer
+  - name: DEBIAN_FRONTEND
+    value: noninteractive
 
 stages:
   - stage: 'Bootstrap'
@@ -16,6 +18,8 @@ stages:
         timeoutInMinutes: 600
         cancelTimeoutInMinutes: 30
         variables:
+          - name: base_dir
+            value: $(template_dir)/scripts/base
           - name: image_folder
             value: /imagegeneration
           - name: template_dir 
@@ -29,7 +33,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                set -euox pipefail
+                set -euo pipefail
                 sudo -E sh -c 'mkdir $(image_folder)'
                 sudo -E sh -c 'chmod 777  $(image_folder)'
 
@@ -38,7 +42,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                set -euox pipefail
+                set -euo pipefail
                 sudo -E sh -c 'mkdir $(template_dir)'
                 sudo -E sh -c 'cp -Rv ./infrastructure/images/linux/* $(template_dir)'
                 sudo -E sh -c 'chmod -Rv +x  $(template_dir)/*'
@@ -47,8 +51,15 @@ stages:
             displayName: 'BASE: apt-mock'
             inputs:
               targetType: 'inline'
-              script: 'sudo -E sh -c "$(template_dir)/scripts/base/apt-mock.sh"'
+              script: 'sudo -E sh -c "$(base_dir)/apt-mock.sh"'
 
+          - task: Bash@3
+            displayName: 'BASE: repos'
+            inputs:
+              targetType: 'inline'
+              script: 'sudo -E sh -c "$(base_dir)/repos.sh"'
+
+              
           #    {
           #     "variables": {
           #         "client_id": "{{env `ARM_CLIENT_ID`}}",
@@ -103,16 +114,7 @@ stages:
           #     "provisioners": [
 
 
-          #         {
-          #             "type": "shell",
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/base/repos.sh"
-          #             ],
-          #             "environment_vars": [
-          #                 "DEBIAN_FRONTEND=noninteractive"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
+
           #         {
           #             "type": "shell",
           #             "script": "{{template_dir}}/scripts/base/apt.sh",
