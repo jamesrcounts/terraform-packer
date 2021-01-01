@@ -55,7 +55,7 @@ jobs:
       displayName: 'Install Powershell'
       inputs:
         targetType: 'inline'
-        script: 'sudo -E sh -c ${INSTALL_SCRIPT_FOLDER}/powershellcore.sh'
+        script: 'sudo -E sh -c $(INSTALLER_SCRIPT_FOLDER)/powershellcore.sh'
     
     # Test scripts require these modules
     - task: Bash@3
