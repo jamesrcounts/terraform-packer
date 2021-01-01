@@ -19,7 +19,7 @@ stages:
           - name: image_folder
             value: /imagegeneration
           - name: template_dir 
-            value: ./infrastructure/images/linux
+            value: /imagetemplate
         steps:
           - checkout: self
             fetchDepth: 1
@@ -30,8 +30,18 @@ stages:
               targetType: 'inline'
               script: |
                 set -euox pipefail
-                sudo -E sh -c 'mkdir $(image_folder)',
-                sudo -E sh -c 'chmod 777  $(image_folder)',
+                sudo -E sh -c 'mkdir $(image_folder)'
+                sudo -E sh -c 'chmod 777  $(image_folder)'
+
+          - task: Bash@3
+            displayName: 'Create template folder'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euox pipefail
+                sudo -E sh -c 'mkdir $(template_dir)'
+                sudo -E sh -c 'cp -Rv ./infrastructure/images/linux/* $(template_dir)'
+                sudo -E sh -c 'chmod -Rv +x  $(template_dir)/*'
 
           - task: Bash@3
             displayName: 'BASE: apt-mock'
