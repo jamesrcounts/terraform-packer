@@ -22,6 +22,8 @@ stages:
             value: $(template_dir)/scripts/base
           - name: helper_script_folder
             value: $(image_folder)/helpers
+          - name: installer_script_folder
+            value: $(image_folder)/installers
           - name: image_folder
             value: /imagegeneration
           - name: template_dir 
@@ -83,7 +85,16 @@ stages:
                 sudo -E sh -c 'cp -Rv $(template_dir)/scripts/helpers/* $(helper_script_folder)'
                 sudo -E sh -c 'chmod -Rv 777  $(helper_script_folder)/*'
 
-                                        
+          - task: Bash@3
+            displayName: 'Create installers folder'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                sudo -E sh -c 'mkdir $(installer_script_folder)'
+                sudo -E sh -c 'cp -Rv $(template_dir)/scripts/installers/* $(installer_script_folder)'
+                sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
+                                    
           - task: AzureCLI@2
             displayName: 'Set image template variables'
             inputs:
@@ -115,7 +126,6 @@ stages:
           #         "virtual_network_subnet_name": "{{env `VNET_SUBNET`}}",
           #         "private_virtual_network_with_public_ip": "{{env `PRIVATE_VIRTUAL_NETWORK_WITH_PUBLIC_IP`}}",
           #         "imagedata_file": "/imagegeneration/imagedata.json",
-          #         "installer_script_folder": "/imagegeneration/installers",
           #         
           #         "vm_size": "Standard_D4s_v4",
           #         "capture_name_prefix": "packer",
@@ -158,11 +168,7 @@ stages:
 
 
 
-          #         {
-          #             "type": "file",
-          #             "source": "{{template_dir}}/scripts/installers",
-          #             "destination": "{{user `installer_script_folder`}}"
-          #         },
+
           #         {
           #             "type": "file",
           #             "source": "{{ template_dir }}/post-generation",
