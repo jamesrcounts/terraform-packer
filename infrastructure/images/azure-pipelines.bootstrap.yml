@@ -10,6 +10,8 @@ variables:
     value: noninteractive
   - name: toolset_version
     value: 1804
+  - name: image_os
+    value: ubuntu18
 
 stages:
   - stage: 'Bootstrap'
@@ -26,12 +28,12 @@ stages:
             value: $(image_folder)/helpers
           - name: imagedata_file
             value: $(image_folder)/imagedata.json
+          - name: image_folder
+            value: /imagegeneration
           - name: image_version
             value: dev
           - name: installer_script_folder
             value: $(image_folder)/installers
-          - name: image_folder
-            value: /imagegeneration
           - name: template_dir 
             value: /imagetemplate
         steps:
@@ -143,6 +145,11 @@ stages:
               targetType: 'inline'
               script: 'sudo -E sh -c "$(installer_script_folder)/preimagedata.sh"'
 
+          - task: Bash@3
+            displayName: 'INSTALLER: configure-environment'
+            inputs:
+              targetType: 'inline'
+              script: 'sudo -E sh -c "$(installer_script_folder)/configure-environment.sh"'
 
               
           - task: AzureCLI@2
@@ -178,7 +185,6 @@ stages:
           #         
           #         "vm_size": "Standard_D4s_v4",
           #         "capture_name_prefix": "packer",
-          #         "image_os": "ubuntu18",
           #         "run_validation_diskspace": "false"
           #     },
           #     "sensitive-variables": [
@@ -215,17 +221,7 @@ stages:
 
 
 
-          #         {
-          #             "type": "shell",
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/installers/configure-environment.sh"
-          #             ],
-          #             "environment_vars": [
-          #                 "IMAGE_VERSION={{user `image_version`}}",
-          #                 "IMAGE_OS={{user `image_os`}}"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
+
           #         {
           #             "type": "shell",
           #             "scripts": [
