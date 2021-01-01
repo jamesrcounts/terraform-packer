@@ -74,7 +74,7 @@ jobs:
         targetType: 'inline'
         script: |
           sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/azure-cli.sh
-          sudo chmod -R 744 /home/AzDevOps
+          sudo chmod -Rv 755 /home/AzDevOps
 
     - task: AzureCLI@2
       displayName: 'Set image template variables'
