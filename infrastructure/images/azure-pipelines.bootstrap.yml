@@ -83,7 +83,7 @@ stages:
                 set -euo pipefail
                 sudo -E sh -c 'mkdir $(helper_script_folder)'
                 sudo -E sh -c 'cp -Rv $(template_dir)/scripts/helpers/* $(helper_script_folder)'
-                sudo -E sh -c 'chmod -Rv 777  $(helper_script_folder)/*'
+                # sudo -E sh -c 'chmod -Rv 777  $(helper_script_folder)/*'
 
           - task: Bash@3
             displayName: 'Create installers folder'
@@ -93,8 +93,23 @@ stages:
                 set -euo pipefail
                 sudo -E sh -c 'mkdir $(installer_script_folder)'
                 sudo -E sh -c 'cp -Rv $(template_dir)/scripts/installers/* $(installer_script_folder)'
-                sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
-                                    
+                # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
+
+          - task: Bash@3
+            displayName: 'Copy post-generation folder'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                sudo -E sh -c 'cp -Rv $(template_dir)/post-generation/* $(image_folder)'
+                # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
+    
+
+
+
+
+
+                                  
           - task: AzureCLI@2
             displayName: 'Set image template variables'
             inputs:
@@ -163,17 +178,6 @@ stages:
           #     ],
           #     "provisioners": [
 
-
-
-
-
-
-
-          #         {
-          #             "type": "file",
-          #             "source": "{{ template_dir }}/post-generation",
-          #             "destination": "{{user `image_folder`}}"
-          #         },
           #         {
           #             "type": "file",
           #             "source": "{{template_dir}}/scripts/tests",
