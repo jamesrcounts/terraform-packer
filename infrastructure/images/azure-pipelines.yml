@@ -38,8 +38,8 @@ jobs:
         targetType: 'inline'
         script: |
           sudo mkdir -p /imagegeneration/tests 
-          cp -Rv ./infrastructure/images/linux/scripts/tests/* /imagegeneration/tests/
-          chmod -R 777 /imagegeneration
+          sudo cp -Rv ./infrastructure/images/linux/scripts/tests/* /imagegeneration/tests/
+          chmod -Rv 777 /imagegeneration
 
           cp -v ./infrastructure/images/linux/toolsets/toolset-1804.json $(INSTALLER_SCRIPT_FOLDER)/toolset.json
 
