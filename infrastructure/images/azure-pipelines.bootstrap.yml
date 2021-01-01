@@ -104,11 +104,17 @@ stages:
                 sudo -E sh -c 'cp -Rv $(template_dir)/post-generation/* $(image_folder)'
                 # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
     
+          - task: Bash@3
+            displayName: 'Copy tests folder'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                sudo -E sh -c 'cp -Rv $(template_dir)/scripts/tests/* $(image_folder)'
+                # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
 
 
-
-
-
+  
                                   
           - task: AzureCLI@2
             displayName: 'Set image template variables'
@@ -178,11 +184,7 @@ stages:
           #     ],
           #     "provisioners": [
 
-          #         {
-          #             "type": "file",
-          #             "source": "{{template_dir}}/scripts/tests",
-          #             "destination": "{{user `image_folder`}}"
-          #         },
+
           #         {
           #             "type": "file",
           #             "source": "{{ template_dir }}/scripts/SoftwareReport",
