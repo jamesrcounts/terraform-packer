@@ -74,6 +74,13 @@ jobs:
           # sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-AzureModules.ps1'
 
     - task: Bash@3
+      displayName: 'Install Basic Toolset'
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/basic.sh
+              
+    - task: Bash@3
       displayName: 'Install Azure CLI'
       inputs:
         targetType: 'inline'
