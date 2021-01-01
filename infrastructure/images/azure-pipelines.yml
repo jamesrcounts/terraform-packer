@@ -74,7 +74,14 @@ jobs:
         targetType: 'inline'
         script: |
           sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/azure-cli.sh
-          sudo chmod -Rv 777 /home/AzDevOps
+          sudo chmod -Rv 755 /home/AzDevOps
+
+    - task: Bash@3
+      displayName: 'Install Packer'
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/packer.sh
 
     - task: AzureCLI@2
       displayName: 'Set image template variables'
