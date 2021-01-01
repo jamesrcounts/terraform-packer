@@ -59,6 +59,27 @@ stages:
               targetType: 'inline'
               script: 'sudo -E sh -c "$(base_dir)/repos.sh"'
 
+          - task: Bash@3
+            displayName: 'BASE: apt'
+            inputs:
+              targetType: 'inline'
+              script: 'sudo -E sh -c "$(base_dir)/apt.sh"'
+                      
+          - task: AzureCLI@2
+            displayName: 'Set image template variables'
+            inputs:
+              azureSubscription: 'Azure'
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $ImageType = "$(image_type)"
+                $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
+                $TemplateDirectoryPath = Join-Path "infrastructure/images" $TemplateDirectoryName | Resolve-Path
+                $TemplatePath = Join-Path $TemplateDirectoryPath "$ImageType.json"
+                Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
+                Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
+                Write-Host "##vso[task.setvariable variable=AZURE_SUBSCRIPTION;issecret=true]$(az account show --query 'id' -o tsv)"
+      
               
           #    {
           #     "variables": {
@@ -115,14 +136,7 @@ stages:
 
 
 
-          #         {
-          #             "type": "shell",
-          #             "script": "{{template_dir}}/scripts/base/apt.sh",
-          #             "environment_vars": [
-          #                 "DEBIAN_FRONTEND=noninteractive"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
+
           #         {
           #             "type": "shell",
           #             "script": "{{template_dir}}/scripts/base/limits.sh",
