@@ -17,6 +17,8 @@ variables:
     value: ubuntu2004
   - name: image_readme_name
     value: Ubuntu2004-README.md
+  - name: DEBIAN_FRONTEND
+    value: noninteractive
 
 jobs:
   - job:
@@ -35,8 +37,8 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          sudo mkdir -p /imagegeneration/tests
-          sudo cp -Rv ./infrastructure/images/linux/scripts/tests/* /imagegeneration/tests/
+          sudo mkdir -p /imagegeneration/tests && chmod -R 777 /imagegeneration
+          cp -Rv ./infrastructure/images/linux/scripts/tests/* /imagegeneration/tests/
 
           cp -v ./infrastructure/images/linux/toolsets/toolset-1804.json $(INSTALLER_SCRIPT_FOLDER)/toolset.json
 
@@ -44,15 +46,15 @@ jobs:
       displayName: 'Install Microsoft Package Sources'
       inputs:
         targetType: 'inline'
-        script: 'sudo bash ./infrastructure/images/linux/scripts/base/repos.sh'
+        script: 'sudo sh -c ./infrastructure/images/linux/scripts/base/repos.sh'
+
 
     # Azure CLI install script requires Powershell
     - task: Bash@3
       displayName: 'Install Powershell'
       inputs:
         targetType: 'inline'
-        script: 'sudo bash ./infrastructure/images/linux/scripts/installers/powershellcore.sh'
-
+        script: 'sudo sh -c $(INSTALL_SCRIPT_FOLDER)/powershellcore.sh'
     
     # Test scripts require these modules
     - task: Bash@3
@@ -63,17 +65,15 @@ jobs:
           # sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-Toolset.ps1'
           # sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Configure-Toolset.ps1'
           sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-PowerShellModules.ps1'
-          sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-AzureModules.ps1'
+          # sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-AzureModules.ps1'
 
     - task: Bash@3
       displayName: 'Install Azure CLI'
       inputs:
         targetType: 'inline'
         script: |
-          sudo -E bash ./infrastructure/images/linux/scripts/installers/azure-cli.sh
-          ls -la /home/AzDevOps/
-  
-
+          sudo -E sh -c $(INSTALLER_SCRIPT_FOLDER)/azure-cli.sh
+          sudo chmod -R 744 /home/AzDevOps
 
     - task: AzureCLI@2
       displayName: 'Set image template variables'
