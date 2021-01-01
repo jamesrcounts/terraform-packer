@@ -198,7 +198,6 @@ stages:
                                     "containers.sh"
                                     "docker-compose.sh"
                                     "docker-moby.sh"
-                                    "dotnetcore-sdk.sh"
                                     "erlang.sh"
                                     "firefox.sh"
                                     "gcc.sh"
