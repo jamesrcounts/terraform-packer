@@ -64,7 +64,14 @@ stages:
             inputs:
               targetType: 'inline'
               script: 'sudo -E sh -c "$(base_dir)/apt.sh"'
-                      
+          
+          - task: Bash@3
+            displayName: 'BASE: limits'
+            inputs:
+              targetType: 'inline'
+              script: 'sudo -E sh -c "$(base_dir)/limits.sh"'
+
+                        
           - task: AzureCLI@2
             displayName: 'Set image template variables'
             inputs:
@@ -137,11 +144,7 @@ stages:
 
 
 
-          #         {
-          #             "type": "shell",
-          #             "script": "{{template_dir}}/scripts/base/limits.sh",
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
+
           #         {
           #             "type": "file",
           #             "source": "{{template_dir}}/scripts/helpers",
