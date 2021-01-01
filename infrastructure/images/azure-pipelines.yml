@@ -49,6 +49,11 @@ jobs:
         targetType: 'inline'
         script: 'sudo bash ./infrastructure/images/linux/scripts/base/repos.sh'
 
+     - task: Bash@3
+        displayName: 'Install Basic apt Tools and Configuration'
+        inputs:
+          targetType: 'inline'
+          script: 'sudo bash ./infrastructure/images/linux/scripts/base/apt.sh'
 
     # Azure CLI install script requires Powershell
     - task: Bash@3

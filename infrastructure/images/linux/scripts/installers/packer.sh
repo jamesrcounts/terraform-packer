@@ -3,6 +3,7 @@
 ##  File:  packer.sh
 ##  Desc:  Installs packer
 ################################################################################
+set -euo pipefail
 
 source $HELPER_SCRIPTS/invoke-tests.sh
 
