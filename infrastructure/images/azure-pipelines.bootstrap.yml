@@ -171,11 +171,11 @@ stages:
               targetType: 'inline'
               script: |
                 set -euo pipefail
-                sudo -E sh -c "$(template_dir)/scripts/installers/Install-PowerShellModules.ps1"
-                sudo -E sh -c "$(template_dir)/scripts/installers/Install-AzureModules.ps1"
+                sudo -E sh -c "pwsh -f $(installer_script_folder)/Install-PowerShellModules.ps1"
+                sudo -E sh -c "pwsh -f $(installer_script_folder)/Install-AzureModules.ps1"
             env:
                 HELPER_SCRIPTS: $(helper_script_folder)
-
+                
           # - task: Bash@3
           #   displayName: 'INSTALLER: common packages'
           #   inputs:
