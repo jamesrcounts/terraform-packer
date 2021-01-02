@@ -215,7 +215,6 @@ stages:
                                     "leiningen.sh"
                                     "mercurial.sh"
                                     "miniconda.sh"
-                                    "mono.sh"
                                     "mysql.sh"
                                     "mssql-cmd-tools.sh"
                                     "nvm.sh"
