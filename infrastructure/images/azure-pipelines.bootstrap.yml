@@ -1,5 +1,5 @@
 trigger:
-  batch: true
+  batch: false
   branches:
     include:
       - main
@@ -209,7 +209,6 @@ stages:
                                     "google-cloud-sdk.sh"
                                     "haskell.sh"
                                     "heroku.sh"
-                                    "hhvm.sh"
                                     "image-magick.sh"
                                     "java-tools.sh"
                                     "kubernetes-tools.sh"
