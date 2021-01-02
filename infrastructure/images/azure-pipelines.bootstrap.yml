@@ -250,22 +250,19 @@ stages:
                 for SCRIPT in "${SCRIPTS[@]}"
                 do
                   sudo -E sh -c "$(installer_script_folder)/${SCRIPT}"
-                done
-
-                # AZ CLI task fails without this.
-                sudo chmod -Rv 755 /home/AzDevOps
+                done  
             env:
                 HELPER_SCRIPTS: $(helper_script_folder)
 
-
-
-
-
-
-
-
+          - task: Bash@3
+            displayName: 'Fix Home Directory Permissions'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                # AZ CLI task fails without this.
+                sudo chmod -Rv 755 /home/AzDevOps
                 
-              
           - task: AzureCLI@2
             displayName: 'Set image template variables'
             inputs:
