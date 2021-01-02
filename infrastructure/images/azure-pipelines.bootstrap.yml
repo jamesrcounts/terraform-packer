@@ -238,14 +238,15 @@ stages:
                                     "subversion.sh"
                                     "terraform.sh"
                                     "packer.sh"
-                                    "vcpkg.sh"
-                                    "vercel.sh"
-                                    "dpkg-config.sh"
-                                    "mongodb.sh"
-                                    "rndgenerator.sh"
-                                    "swig.sh"
-                                    "netlify.sh"
                                     )
+                                    # "vcpkg.sh"
+                                    # "vercel.sh"
+                                    # "dpkg-config.sh"
+                                    # "mongodb.sh"
+                                    # "rndgenerator.sh"
+                                    # "swig.sh"
+                                    # "netlify.sh"
+                                    # )
                 
                 for SCRIPT in "${SCRIPTS[@]}"
                 do
@@ -303,171 +304,44 @@ stages:
               PACKER_LOG: 1
               PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
 
-              
-          #    {
-          #     "variables": {
-          #         "client_id": "{{env `ARM_CLIENT_ID`}}",
-          #         "client_secret": "{{env `ARM_CLIENT_SECRET`}}",
-          #         "subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}",
-          #         "tenant_id": "{{env `ARM_TENANT_ID`}}",
-          #         "resource_group": "{{env `ARM_RESOURCE_GROUP`}}",
-          #         "storage_account": "{{env `ARM_STORAGE_ACCOUNT`}}",
-          #         "temp_resource_group_name": "{{env `TEMP_RESOURCE_GROUP_NAME`}}",
-          #         "location": "{{env `ARM_RESOURCE_LOCATION`}}",
-          #         "virtual_network_name": "{{env `VNET_NAME`}}",
-          #         "virtual_network_resource_group_name": "{{env `VNET_RESOURCE_GROUP`}}",
-          #         "virtual_network_subnet_name": "{{env `VNET_SUBNET`}}",
-          #         "private_virtual_network_with_public_ip": "{{env `PRIVATE_VIRTUAL_NETWORK_WITH_PUBLIC_IP`}}",
-          #         
-          #         "vm_size": "Standard_D4s_v4",
-          #         "capture_name_prefix": "packer",
-          #         "run_validation_diskspace": "false"
-          #     },
-          #     "sensitive-variables": [
-          #         "client_secret"
-          #     ],
-          #     "builders": [
-          #         {
-          #             "type": "azure-arm",
-          #             "client_id": "{{user `client_id`}}",
-          #             "client_secret": "{{user `client_secret`}}",
-          #             "subscription_id": "{{user `subscription_id`}}",
-          #             "tenant_id": "{{user `tenant_id`}}",
-          #             "location": "{{user `location`}}",
-          #             "vm_size": "{{user `vm_size`}}",
-          #             "resource_group_name": "{{user `resource_group`}}",
-          #             "storage_account": "{{user `storage_account`}}",
-          #             "temp_resource_group_name": "{{user `temp_resource_group_name`}}",
-          #             "capture_container_name": "images",
-          #             "capture_name_prefix": "{{user `capture_name_prefix`}}",
-          #             "virtual_network_name": "{{user `virtual_network_name`}}",
-          #             "virtual_network_resource_group_name": "{{user `virtual_network_resource_group_name`}}",
-          #             "virtual_network_subnet_name": "{{user `virtual_network_subnet_name`}}",
-          #             "private_virtual_network_with_public_ip": "{{user `private_virtual_network_with_public_ip`}}",
-          #             "os_type": "Linux",
-          #             "image_publisher": "Canonical",
-          #             "image_offer": "UbuntuServer",
-          #             "image_sku": "18.04-LTS",
-          #             "os_disk_size_gb": "86"
-          #         }
-          #     ],
-          #     "provisioners": [
-
-          #         {
-          #             "type": "shell",
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/installers/Install-Toolset.ps1",
-          #                 "{{template_dir}}/scripts/installers/Configure-Toolset.ps1"
-          #             ],
-          #             "environment_vars": [
-          #                 "HELPER_SCRIPTS={{user `helper_script_folder`}}",
-          #                 "INSTALLER_SCRIPT_FOLDER={{user `installer_script_folder`}}"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} pwsh -f {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/installers/pipx-packages.sh"
-          #             ],
-          #             "environment_vars": [
-          #                 "HELPER_SCRIPTS={{user `helper_script_folder`}}",
-          #                 "INSTALLER_SCRIPT_FOLDER={{user `installer_script_folder`}}"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/installers/homebrew.sh"
-          #             ],
-          #             "environment_vars": [
-          #                 "HELPER_SCRIPTS={{user `helper_script_folder`}}",
-          #                 "DEBIAN_FRONTEND=noninteractive",
-          #                 "INSTALLER_SCRIPT_FOLDER={{user `installer_script_folder`}}"
-          #             ],
-          #             "execute_command": "/bin/sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "expect_disconnect": true,
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/base/reboot.sh"
-          #             ],
-          #             "execute_command": "/bin/sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "pause_before": "60s",
-          #             "start_retry_timeout": "10m",
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/installers/cleanup.sh"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "script": "{{template_dir}}/scripts/base/apt-mock-remove.sh",
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "inline": [
-          #                 "pwsh -File {{user `image_folder`}}/SoftwareReport/SoftwareReport.Generator.ps1 -OutputDirectory {{user `image_folder`}}",
-          #                 "pwsh -File {{user `image_folder`}}/tests/RunAll-Tests.ps1 -OutputDirectory {{user `image_folder`}}"
-          #             ],
-          #             "environment_vars": [
-          #                 "IMAGE_VERSION={{user `image_version`}}",
-          #                 "INSTALLER_SCRIPT_FOLDER={{user `installer_script_folder`}}"
-          #             ]
-          #         },
-          #         {
-          #             "type": "file",
-          #             "source": "{{user `image_folder`}}/Ubuntu-Readme.md",
-          #             "destination": "{{template_dir}}/Ubuntu1804-README.md",
-          #             "direction": "download"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "scripts":[
-          #                 "{{template_dir}}/scripts/installers/post-deployment.sh"
-          #             ],
-          #             "environment_vars":[
-          #                 "HELPER_SCRIPT_FOLDER={{user `helper_script_folder`}}",
-          #                 "INSTALLER_SCRIPT_FOLDER={{user `installer_script_folder`}}",
-          #                 "IMAGE_FOLDER={{user `image_folder`}}"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "scripts": [
-          #                 "{{template_dir}}/scripts/installers/validate-disk-space.sh"
-          #             ],
-          #             "environment_vars": [
-          #                 "RUN_VALIDATION={{user `run_validation_diskspace`}}"
-          #             ]
-          #         },
-          #         {
-          #             "type": "file",
-          #             "source": "{{template_dir}}/config/ubuntu1804.conf",
-          #             "destination": "/tmp/"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "inline": [
-          #                 "mkdir -p /etc/vsts",
-          #                 "cp /tmp/ubuntu1804.conf /etc/vsts/machine_instance.conf"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         },
-          #         {
-          #             "type": "shell",
-          #             "inline": [
-          #                 "sleep 30",
-          #                 "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
-          #             ],
-          #             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
-          #         }
-          #     ]
-          # }
+          - task: PowerShell@2
+            displayName: 'Output Readme file content'
+            inputs:
+              targetType: 'inline'
+              script: |
+                Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "$(image_readme_name)")
+        
+          - task: PowerShell@2
+            displayName: 'Print provisioners duration'
+            inputs:
+              targetType: 'filePath'
+              filePath: ./images.CI/measure-provisioners-duration.ps1
+              arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
+                                -PrefixToPathTrim "$(TemplateDirectoryPath)" `
+                                -PrintTopNLongest 25
+        
+          - task: PowerShell@2
+            displayName: 'Create release for VM deployment'
+            inputs:
+              targetType: filePath
+              filePath: ./images.CI/linux-and-win/create-release.ps1
+              arguments: -BuildId $(Build.BuildId) `
+                                -Organization $(RELEASE_TARGET_ORGANIZATION) `
+                                -DefinitionId $(RELEASE_TARGET_DEFINITION_ID) `
+                                -Project $(RELEASE_TARGET_PROJECT) `
+                                -ImageName $(image_type) `
+                                -AccessToken $(RELEASE_TARGET_TOKEN)
+        
+          - task: PowerShell@2
+            displayName: 'Clean up resources'
+            condition: always()
+            inputs:
+              targetType: filePath
+              filePath: ./images.CI/linux-and-win/cleanup.ps1
+              arguments: -ResourcesNamePrefix $(Build.BuildId) `
+                            -ClientId $(CLIENT_ID) `
+                            -ClientSecret $(CLIENT_SECRET) `
+                            -Image $(image_type) `
+                            -SubscriptionId $(AZURE_SUBSCRIPTION) `
+                            -TenantId $(AZURE_TENANT)
+                    
