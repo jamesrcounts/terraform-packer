@@ -1,5 +1,5 @@
 trigger:
-  batch: false
+  batch: true
   branches:
     include:
       - main
@@ -229,7 +229,6 @@ stages:
                                     "pulumi.sh"
                                     "ruby.sh"
                                     "r.sh"
-                                    "rust.sh"
                                     "julia.sh"
                                     "sbt.sh"
                                     "selenium.sh"
