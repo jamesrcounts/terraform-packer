@@ -278,7 +278,32 @@ stages:
                 Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
                 Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
                 Write-Host "##vso[task.setvariable variable=AZURE_SUBSCRIPTION;issecret=true]$(az account show --query 'id' -o tsv)"
-      
+                
+          - task: AzureCLI@2
+            displayName: 'Build VM'
+            inputs:
+              azureSubscription: 'Azure'
+              scriptType: 'pscore'
+              scriptLocation: 'scriptPath'
+              scriptPath: './infrastructure/images/build-image.ps1'
+              arguments: -ResourcesNamePrefix $(Build.BuildId) `
+                                -ClientId $env:servicePrincipalId `
+                                -ClientSecret $env:servicePrincipalKey `
+                                -TemplatePath $(TemplatePath) `
+                                -ResourceGroup $(AZURE_RESOURCE_GROUP) `
+                                -StorageAccount $(AZURE_STORAGE_ACCOUNT) `
+                                -SubscriptionId $(AZURE_SUBSCRIPTION) `
+                                -TenantId $env:tenantId `
+                                -Location $(AZURE_LOCATION) `
+                                -VirtualNetworkName $(BUILD_AGENT_VNET_NAME) `
+                                -VirtualNetworkRG $(BUILD_AGENT_VNET_RESOURCE_GROUP) `
+                                -VirtualNetworkSubnet $(BUILD_AGENT_SUBNET_NAME) `
+                                -GitHubFeedToken $(GITHUB_TOKEN)
+              addSpnToEnvironment: true
+            env:
+              PACKER_LOG: 1
+              PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
+
               
           #    {
           #     "variables": {
