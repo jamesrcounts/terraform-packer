@@ -245,7 +245,6 @@ stages:
                                     "rndgenerator.sh"
                                     "swig.sh"
                                     "netlify.sh"
-                                    "pypy.sh"
                                     )
                 
                 for SCRIPT in "${SCRIPTS[@]}"
