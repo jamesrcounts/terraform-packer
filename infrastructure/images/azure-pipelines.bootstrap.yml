@@ -12,7 +12,9 @@ variables:
     value: 1804
   - name: image_os
     value: ubuntu18
-
+  - name: image_type
+    value: ubuntu2004
+    
 stages:
   - stage: 'Bootstrap'
     pool: 'VMSS'
@@ -262,7 +264,7 @@ stages:
                 set -euo pipefail
                 # AZ CLI task fails without this.
                 sudo chmod -Rv 755 /home/AzDevOps
-                
+
           - task: AzureCLI@2
             displayName: 'Set image template variables'
             inputs:
