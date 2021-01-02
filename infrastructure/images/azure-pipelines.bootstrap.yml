@@ -179,72 +179,17 @@ stages:
                 HELPER_SCRIPTS: $(helper_script_folder)
                 
           - task: Bash@3
-            displayName: 'INSTALLER: common packages'
+            displayName: 'INSTALLER: minimal packages'
             inputs:
               targetType: 'inline'
               script: |
                 set -euo pipefail
                 declare -a SCRIPTS=(
-                                    "7-zip.sh"
-                                    "ansible.sh"
-                                    "azcopy.sh"
                                     "azure-cli.sh"
                                     "basic.sh"
-                                    "aliyun-cli.sh"
-                                    "aws.sh"
                                     "build-essential.sh"
-                                    "clang.sh"
-                                    "swift.sh"
-                                    "cmake.sh"
-                                    "codeql-bundle.sh"
-                                    "containers.sh"
-                                    "docker-compose.sh"
-                                    "docker-moby.sh"
-                                    "firefox.sh"
-                                    "gcc.sh"
-                                    "gfortran.sh"
-                                    "git.sh"
-                                    "github-cli.sh"
-                                    "google-chrome.sh"
-                                    "google-cloud-sdk.sh"
-                                    "haskell.sh"
-                                    "heroku.sh"
-                                    "image-magick.sh"
-                                    "java-tools.sh"
-                                    "kubernetes-tools.sh"
-                                    "oc.sh"
-                                    "leiningen.sh"
-                                    "mercurial.sh"
-                                    "miniconda.sh"
-                                    "mysql.sh"
-                                    "mssql-cmd-tools.sh"
-                                    "nvm.sh"
-                                    "nodejs.sh"
-                                    "bazel.sh"
-                                    "oras-cli.sh"
-                                    "phantomjs.sh"
-                                    "php.sh"
-                                    "pollinate.sh"
-                                    "postgresql.sh"
-                                    "pulumi.sh"
-                                    "ruby.sh"
-                                    "r.sh"
-                                    "julia.sh"
-                                    "sbt.sh"
-                                    "selenium.sh"
-                                    "sphinx.sh"
-                                    "subversion.sh"
-                                    "terraform.sh"
                                     "packer.sh"
                                     )
-                                    # "vcpkg.sh"
-                                    # "vercel.sh"
-                                    # "dpkg-config.sh"
-                                    # "mongodb.sh"
-                                    # "rndgenerator.sh"
-                                    # "swig.sh"
-                                    # "netlify.sh"
-                                    # )
                 
                 for SCRIPT in "${SCRIPTS[@]}"
                 do
