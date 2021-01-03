@@ -276,16 +276,18 @@ stages:
                                 -ImageName $(image_type) `
                                 -AccessToken $(RELEASE_TARGET_TOKEN)
         
-          - task: PowerShell@2
+          - task: AzureCLI@2
             displayName: 'Clean up resources'
             condition: always()
             inputs:
-              targetType: filePath
+              azureSubscription: 'Azure'
+              scriptType: 'pscore'
+              scriptLocation: 'scriptPath'
               scriptPath: './infrastructure/images/cleanup.ps1'
               arguments: -ResourcesNamePrefix $(Build.BuildId) `
-                            -ClientId $(CLIENT_ID) `
-                            -ClientSecret $(CLIENT_SECRET) `
+                            -ClientId $env:servicePrincipalId `
+                            -ClientSecret $env:servicePrincipalKey `
                             -Image $(image_type) `
                             -SubscriptionId $(AZURE_SUBSCRIPTION) `
-                            -TenantId $(AZURE_TENANT)
-                    
+                            -TenantId $env:tenantId `
+              addSpnToEnvironment: true
