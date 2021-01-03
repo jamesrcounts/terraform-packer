@@ -268,7 +268,7 @@ stages:
             displayName: 'Create release for VM deployment'
             inputs:
               targetType: filePath
-              filePath: ./images.CI/linux-and-win/create-release.ps1
+              filePath: ./infrastructure/images/create-release.ps1
               arguments: -BuildId $(Build.BuildId) `
                                 -Organization $(RELEASE_TARGET_ORGANIZATION) `
                                 -DefinitionId $(RELEASE_TARGET_DEFINITION_ID) `
