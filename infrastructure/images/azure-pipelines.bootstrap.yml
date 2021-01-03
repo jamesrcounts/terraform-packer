@@ -289,5 +289,5 @@ stages:
                             -ClientSecret $env:servicePrincipalKey `
                             -Image $(image_type) `
                             -SubscriptionId $(AZURE_SUBSCRIPTION) `
-                            -TenantId $env:tenantId `
+                            -TenantId $env:tenantId
               addSpnToEnvironment: true
