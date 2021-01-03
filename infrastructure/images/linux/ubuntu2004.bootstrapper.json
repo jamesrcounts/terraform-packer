@@ -231,12 +231,6 @@
             "execute_command": "sudo sh -c '{{ .Vars }} {{ .Path }}'"
         },
         {
-            "type": "file",
-            "source": "{{user `image_folder`}}/Ubuntu-Readme.md",
-            "destination": "{{template_dir}}/Ubuntu2004-README.md",
-            "direction": "download"
-        },
-        {
             "type": "shell",
             "scripts":[
                 "{{template_dir}}/scripts/installers/post-deployment.sh"
