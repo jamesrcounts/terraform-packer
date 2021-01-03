@@ -12,6 +12,8 @@ variables:
     value: 1804
   - name: image_os
     value: ubuntu18
+  - name: image_readme_name
+    value: Ubuntu2004-README.md
   - name: image_type
     value: ubuntu2004.bootstrapper
     
