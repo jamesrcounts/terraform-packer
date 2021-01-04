@@ -56,7 +56,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
   }
 
   lifecycle {
-    ignore_changes = [tags]
+    ignore_changes = [tags, instances]
   }
 }
 

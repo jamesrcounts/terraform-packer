@@ -45,14 +45,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
   }
 
   source_image_id = local.source_image_id
-  # source_image_reference {
-  #   publisher = "Canonical"
-  #   offer     = "UbuntuServer"
-  #   sku       = "18.04-LTS"
-  #   version   = "latest"
-  # }
 
   lifecycle {
-    ignore_changes = [tags]
+    ignore_changes = [tags, instances]
   }
 }

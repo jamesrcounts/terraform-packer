@@ -5,7 +5,7 @@ module "vmss-custom" {
   log_analytics_workspace = azurerm_log_analytics_workspace.insights
   project                 = "${local.project}-custom"
   resource_group          = azurerm_resource_group.main
-  source_image_id         = azurerm_image.agents["pkroshlqdn5kepx"].id
+  source_image_id         = azurerm_image.agents["pkrosma1pn5fgmm"].id
   subnet_id               = azurerm_subnet.internal.id
   tags                    = local.tags
 }
