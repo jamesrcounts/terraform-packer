@@ -14,7 +14,7 @@ variables:
   - name: INSTALLER_SCRIPT_FOLDER
     value: ./infrastructure/images/linux/scripts/installers
   - name: image_type
-    value: ubuntu2004
+    value: ubuntu2004.bootstrapper
   - name: image_readme_name
     value: Ubuntu2004-README.md
   - name: DEBIAN_FRONTEND
@@ -25,75 +25,11 @@ jobs:
     displayName: Image Generation
     timeoutInMinutes: 600
     cancelTimeoutInMinutes: 30
-    pool: 'VMSS'
+    pool: 'Custom'
   
     steps:      
     - checkout: self
       fetchDepth: 1
-
-    # Bootstrap packer build environment
-    - task: Bash@3
-      displayName: 'Arrange files'
-      inputs:
-        targetType: 'inline'
-        script: |
-          sudo mkdir -p /imagegeneration/tests 
-          sudo cp -Rv ./infrastructure/images/linux/scripts/tests/* /imagegeneration/tests/
-          chmod -Rv 777 /imagegeneration
-
-          cp -v ./infrastructure/images/linux/toolsets/toolset-1804.json $(INSTALLER_SCRIPT_FOLDER)/toolset.json
-
-    - task: Bash@3
-      displayName: 'Install Microsoft Package Sources'
-      inputs:
-        targetType: 'inline'
-        script: 'sudo bash ./infrastructure/images/linux/scripts/base/repos.sh'
-
-    - task: Bash@3
-      displayName: 'Install Basic apt Tools and Configuration'
-      inputs:
-        targetType: 'inline'
-        script: 'sudo bash ./infrastructure/images/linux/scripts/base/apt.sh'
-
-    # Azure CLI install script requires Powershell
-    - task: Bash@3
-      displayName: 'Install Powershell'
-      inputs:
-        targetType: 'inline'
-        script: 'sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/powershellcore.sh'
-    
-    # Test scripts require these modules
-    - task: Bash@3
-      displayName: 'Install Powershell Modules'
-      inputs:
-        targetType: 'inline'
-        script: |
-          # sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-Toolset.ps1'
-          # sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Configure-Toolset.ps1'
-          sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-PowerShellModules.ps1'
-          # sudo -E sh -c 'pwsh -f $(INSTALLER_SCRIPT_FOLDER)/Install-AzureModules.ps1'
-
-    - task: Bash@3
-      displayName: 'Install Basic Toolset'
-      inputs:
-        targetType: 'inline'
-        script: |
-          sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/basic.sh
-              
-    - task: Bash@3
-      displayName: 'Install Azure CLI'
-      inputs:
-        targetType: 'inline'
-        script: |
-          sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/azure-cli.sh
-          sudo chmod -Rv 755 /home/AzDevOps
-
-    - task: Bash@3
-      displayName: 'Install Packer'
-      inputs:
-        targetType: 'inline'
-        script: |
-          sudo -E bash $(INSTALLER_SCRIPT_FOLDER)/packer.sh
 
     - task: AzureCLI@2
       displayName: 'Set image template variables'
@@ -151,17 +87,17 @@ jobs:
                           -PrefixToPathTrim "$(TemplateDirectoryPath)" `
                           -PrintTopNLongest 25
   
-    - task: PowerShell@2
-      displayName: 'Create release for VM deployment'
-      inputs:
-        targetType: filePath
-        filePath: ./images.CI/linux-and-win/create-release.ps1
-        arguments: -BuildId $(Build.BuildId) `
-                          -Organization $(RELEASE_TARGET_ORGANIZATION) `
-                          -DefinitionId $(RELEASE_TARGET_DEFINITION_ID) `
-                          -Project $(RELEASE_TARGET_PROJECT) `
-                          -ImageName $(image_type) `
-                          -AccessToken $(RELEASE_TARGET_TOKEN)
+    # - task: PowerShell@2
+    #   displayName: 'Create release for VM deployment'
+    #   inputs:
+    #     targetType: filePath
+    #     filePath: ./images.CI/linux-and-win/create-release.ps1
+    #     arguments: -BuildId $(Build.BuildId) `
+    #                       -Organization $(RELEASE_TARGET_ORGANIZATION) `
+    #                       -DefinitionId $(RELEASE_TARGET_DEFINITION_ID) `
+    #                       -Project $(RELEASE_TARGET_PROJECT) `
+    #                       -ImageName $(image_type) `
+    #                       -AccessToken $(RELEASE_TARGET_TOKEN)
   
     - task: PowerShell@2
       displayName: 'Clean up resources'
