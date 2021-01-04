@@ -11,7 +11,8 @@ resource "azuredevops_variable_group" "variablegroup" {
 
   variable {
     name  = "AZURE_STORAGE_ACCOUNT"
-    value = "saterraformpackerpackerd"
+    value = "saterraformpackerpackerp"
+    
   }
 
   variable {

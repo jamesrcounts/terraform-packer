@@ -38,9 +38,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
   }
 
   os_disk {
-    storage_account_type = "Standard_LRS"
-    caching              = "ReadOnly"
-    disk_size_gb         = 86
+    storage_account_type   = "Standard_LRS"
+    caching                = "ReadOnly"
+    disk_size_gb           = 86
+    disk_encryption_set_id = azurerm_disk_encryption_set.des.id
 
     diff_disk_settings {
       option = "Local"
@@ -86,6 +87,26 @@ resource "azurerm_virtual_machine_scale_set_extension" "dependency_agent" {
   type_handler_version         = "9.5"
   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.azp_agents.id
 }
+
+# resource "azurerm_virtual_machine_scale_set_extension" "disk_encryption" {
+#   name                 = "DiskEncryption"
+#   publisher            = "Microsoft.Azure.Security"
+#   type                 = "AzureDiskEncryption"
+#   type_handler_version = "2.2"
+#   virtual_machine_scale_set_id = azurerm_linux_virtual_machine_scale_set.azp_agents.id
+
+#   settings = <<SETTINGS
+# {
+#   "EncryptionOperation": "EnableEncryption",
+#   "KeyVaultURL": azurerm_key_vault.os_encryption.vault_uri,
+#   "KeyVaultResourceId": azurerm_key_vault.os_encryption.id,
+#   "KeyEncryptionKeyURL": "https://${local.vaultname}.vault.azure.net/keys/${local.keyname}/${local.keyversion}",
+#   "KekVaultResourceId": "/subscriptions/${local.subscriptionid}/resourceGroups/${local.vaultresourcegroup}/providers/Microsoft.KeyVault/vaults/${local.vaultname}",
+#   "KeyEncryptionAlgorithm": "RSA-OAEP",
+#   "VolumeType": "All"
+# }
+# SETTINGS
+# }
 
 resource "azurerm_public_ip_prefix" "pib" {
   location            = azurerm_resource_group.main.location
