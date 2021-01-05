@@ -1,107 +1,104 @@
 trigger:
+  batch: true
   branches:
     include:
       - main
-  batch: true
-
-pr:
-  autoCancel: true
-  branches:
-    include:
-    - main
 
 variables:
   - group: terraform-packer
-  - name: HELPER_SCRIPTS
-    value: ./infrastructure/images/linux/scripts/helpers
-  - name: INSTALLER_SCRIPT_FOLDER
-    value: ./infrastructure/images/linux/scripts/installers
-  - name: image_type
-    value: ubuntu2004.bootstrapper
-  - name: image_readme_name
-    value: Ubuntu2004-README.md
   - name: DEBIAN_FRONTEND
     value: noninteractive
+  - name: image_readme_name
+    value: Ubuntu2004-README.md
+  - name: image_type
+    value: ubuntu2004.bootstrapper
 
-jobs:
-  - job:
-    displayName: Image Generation
-    timeoutInMinutes: 600
-    cancelTimeoutInMinutes: 30
+stages:
+  - stage: 'Build'
     pool: 'Custom'
-  
-    steps:      
-    - checkout: self
-      fetchDepth: 1
+    jobs:
+      - job:
+        displayName: Image Generation
+        timeoutInMinutes: 600
+        cancelTimeoutInMinutes: 30
+        variables: 
+          - name: HELPER_SCRIPTS
+            value: ./infrastructure/images/linux/scripts/helpers
+          - name: INSTALLER_SCRIPT_FOLDER
+            value: ./infrastructure/images/linux/scripts/installers
+                    
+        steps:      
+        - checkout: self
+          fetchDepth: 1
 
-    - task: AzureCLI@2
-      displayName: 'Set image template variables'
-      inputs:
-        azureSubscription: 'Azure'
-        scriptType: 'pscore'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          $ImageType = "$(image_type)"
-          $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
-          $TemplateDirectoryPath = Join-Path "infrastructure/images" $TemplateDirectoryName | Resolve-Path
-          $TemplatePath = Join-Path $TemplateDirectoryPath "$ImageType.json"
-          Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
-          Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
-          Write-Host "##vso[task.setvariable variable=AZURE_SUBSCRIPTION;issecret=true]$(az account show --query 'id' -o tsv)"
+        - task: AzureCLI@2
+          displayName: 'Set image template variables'
+          inputs:
+            azureSubscription: 'Azure'
+            scriptType: 'pscore'
+            scriptLocation: 'inlineScript'
+            inlineScript: |
+              $ImageType = "$(image_type)"
+              $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
+              $TemplateDirectoryPath = Join-Path "infrastructure/images" $TemplateDirectoryName | Resolve-Path
+              $TemplatePath = Join-Path $TemplateDirectoryPath "$ImageType.json"
+              Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
+              Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
+              Write-Host "##vso[task.setvariable variable=AZURE_SUBSCRIPTION;issecret=true]$(az account show --query 'id' -o tsv)"
 
-    - task: AzureCLI@2
-      displayName: 'Build VM'
-      inputs:
-        azureSubscription: 'Azure'
-        scriptType: 'pscore'
-        scriptLocation: 'scriptPath'
-        scriptPath: './infrastructure/images/build-image.ps1'
-        arguments: -ResourcesNamePrefix $(Build.BuildId) `
+        - task: AzureCLI@2
+          displayName: 'Build VM'
+          inputs:
+            azureSubscription: 'Azure'
+            scriptType: 'pscore'
+            scriptLocation: 'scriptPath'
+            scriptPath: './infrastructure/images/build-image.ps1'
+            arguments: -ResourcesNamePrefix $(Build.BuildId) `
+                              -ClientId $env:servicePrincipalId `
+                              -ClientSecret $env:servicePrincipalKey `
+                              -TemplatePath $(TemplatePath) `
+                              -ResourceGroup $(AZURE_RESOURCE_GROUP) `
+                              -StorageAccount $(AZURE_STORAGE_ACCOUNT) `
+                              -SubscriptionId $(AZURE_SUBSCRIPTION) `
+                              -TenantId $env:tenantId `
+                              -Location $(AZURE_LOCATION) `
+                              -VirtualNetworkName $(BUILD_AGENT_VNET_NAME) `
+                              -VirtualNetworkRG $(BUILD_AGENT_VNET_RESOURCE_GROUP) `
+                              -VirtualNetworkSubnet $(BUILD_AGENT_SUBNET_NAME) `
+                              -GitHubFeedToken $(GITHUB_TOKEN)
+            addSpnToEnvironment: true
+          env:
+            PACKER_LOG: 1
+            PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
+      
+        - task: PowerShell@2
+          displayName: 'Output Readme file content'
+          inputs:
+            targetType: 'inline'
+            script: |
+              Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "$(image_readme_name)")
+      
+        - task: PowerShell@2
+          displayName: 'Print provisioners duration'
+          inputs:
+            targetType: 'filePath'
+            filePath: ./infrastructure/images/measure-provisioners-duration.ps1
+            arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
+                              -PrefixToPathTrim "$(TemplateDirectoryPath)" `
+                              -PrintTopNLongest 25
+              
+        - task: AzureCLI@2
+          displayName: 'Clean up resources'
+          condition: always()
+          inputs:
+            azureSubscription: 'Azure'
+            scriptType: 'pscore'
+            scriptLocation: 'scriptPath'
+            scriptPath: './infrastructure/images/cleanup.ps1'
+            arguments: -ResourcesNamePrefix $(Build.BuildId) `
                           -ClientId $env:servicePrincipalId `
                           -ClientSecret $env:servicePrincipalKey `
-                          -TemplatePath $(TemplatePath) `
-                          -ResourceGroup $(AZURE_RESOURCE_GROUP) `
-                          -StorageAccount $(AZURE_STORAGE_ACCOUNT) `
+                          -Image $(image_type) `
                           -SubscriptionId $(AZURE_SUBSCRIPTION) `
-                          -TenantId $env:tenantId `
-                          -Location $(AZURE_LOCATION) `
-                          -VirtualNetworkName $(BUILD_AGENT_VNET_NAME) `
-                          -VirtualNetworkRG $(BUILD_AGENT_VNET_RESOURCE_GROUP) `
-                          -VirtualNetworkSubnet $(BUILD_AGENT_SUBNET_NAME) `
-                          -GitHubFeedToken $(GITHUB_TOKEN)
-        addSpnToEnvironment: true
-      env:
-        PACKER_LOG: 1
-        PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
-  
-    - task: PowerShell@2
-      displayName: 'Output Readme file content'
-      inputs:
-        targetType: 'inline'
-        script: |
-          Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "$(image_readme_name)")
-  
-    - task: PowerShell@2
-      displayName: 'Print provisioners duration'
-      inputs:
-        targetType: 'filePath'
-        filePath: ./infrastructure/images/measure-provisioners-duration.ps1
-        arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
-                          -PrefixToPathTrim "$(TemplateDirectoryPath)" `
-                          -PrintTopNLongest 25
-          
-    - task: AzureCLI@2
-      displayName: 'Clean up resources'
-      condition: always()
-      inputs:
-        azureSubscription: 'Azure'
-        scriptType: 'pscore'
-        scriptLocation: 'scriptPath'
-        scriptPath: './infrastructure/images/cleanup.ps1'
-        arguments: -ResourcesNamePrefix $(Build.BuildId) `
-                      -ClientId $env:servicePrincipalId `
-                      -ClientSecret $env:servicePrincipalKey `
-                      -Image $(image_type) `
-                      -SubscriptionId $(AZURE_SUBSCRIPTION) `
-                      -TenantId $env:tenantId
-        addSpnToEnvironment: true
+                          -TenantId $env:tenantId
+            addSpnToEnvironment: true

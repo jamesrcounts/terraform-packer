@@ -8,10 +8,7 @@ variables:
   - group: terraform-packer
   - name: DEBIAN_FRONTEND
     value: noninteractive
-  - name: toolset_version
-    value: 1804
-  - name: image_os
-    value: ubuntu18
+
   - name: image_readme_name
     value: Ubuntu2004-README.md
   - name: image_type
@@ -40,6 +37,10 @@ stages:
             value: $(image_folder)/installers
           - name: template_dir 
             value: /imagetemplate
+          - name: toolset_version
+            value: 1804
+          - name: image_os
+            value: ubuntu18
         steps:
           - checkout: self
             fetchDepth: 1
@@ -215,7 +216,6 @@ stages:
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: |
-                az account set --subscription "Jim Counts (Personal)"
                 $ImageType = "$(image_type)"
                 $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
                 $TemplateDirectoryPath = Join-Path "infrastructure/images" $TemplateDirectoryName | Resolve-Path
