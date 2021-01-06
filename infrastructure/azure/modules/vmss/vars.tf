@@ -30,7 +30,7 @@ variable "source_image_reference" {
     version   = string
   })
 
-  default = null
+  default = {}
 
   description = "(optional) Specifies a marketplace image to base instances on"
 }
