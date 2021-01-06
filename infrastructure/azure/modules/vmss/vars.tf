@@ -22,6 +22,19 @@ variable "source_image_id" {
   description = "The VM Image to base the scale set on."
 }
 
+variable "source_image_reference" {
+  type = object({
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  })
+
+  default = null
+
+  description = "(optional) Specifies a marketplace image to base instances on"
+}
+
 variable "subnet_id" {
   type        = string
   description = "The ID of the Subnet which the IP Configuration should be connected to."

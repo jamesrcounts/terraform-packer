@@ -46,6 +46,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
 
   source_image_id = local.source_image_id
 
+  source_image_reference {
+    publisher = lookup(var.source_image_reference, "publisher", null)
+    offer     = lookup(var.source_image_reference, "offer", null)
+    sku       = lookup(var.source_image_reference, "sku", null)
+    version   = lookup(var.source_image_reference, "version", null)
+  }
+
   lifecycle {
     ignore_changes = [tags, instances]
   }
