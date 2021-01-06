@@ -19,7 +19,7 @@ variable "resource_group" {
 
 variable "source_image_id" {
   type        = string
-  default     = ""
+  default     = null
   description = "The VM Image to base the scale set on."
 }
 
