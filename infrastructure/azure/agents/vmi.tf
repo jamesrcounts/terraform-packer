@@ -10,8 +10,8 @@ resource "azurerm_image" "agents" {
   for_each = local.agent_images
 
   name                = "vmi-${local.project}-${each.key}"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
 
   os_disk {
     os_type  = "Linux"
