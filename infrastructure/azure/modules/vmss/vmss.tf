@@ -46,15 +46,15 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
 
   source_image_id = local.source_image_id
 
-  dynamic "source_image_reference" {
-    for_each = var.source_image_reference[*]
-    content {
-      publisher = source_image_reference.value.publisher
-      offer     = source_image_reference.value.offer
-      sku       = source_image_reference.value.sku
-      version   = source_image_reference.value.version
-    }
-  }
+  # dynamic "source_image_reference" {
+  #   for_each = var.source_image_reference[*]
+  #   content {
+  #     publisher = source_image_reference.value.publisher
+  #     offer     = source_image_reference.value.offer
+  #     sku       = source_image_reference.value.sku
+  #     version   = source_image_reference.value.version
+  #   }
+  # }
 
   lifecycle {
     ignore_changes = [tags, instances]
