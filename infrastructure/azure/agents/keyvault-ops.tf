@@ -8,7 +8,7 @@ locals {
 }
 
 data "azurerm_key_vault" "ops" {
-  name                = "kv-ops-${local.project}"
+  name                = "kv-${local.project}-ops"
   resource_group_name = data.azurerm_resource_group.main.name
 }
 

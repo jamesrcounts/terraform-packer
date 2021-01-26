@@ -1,8 +1,6 @@
 locals {
   agent_images = {
-    "pkrosgbh4lolumx" = "https://saterraformpackerpackerp.blob.core.windows.net/images/pkrosgbh4lolumx.vhd"
-    "pkroshlqdn5kepx" = "https://saterraformpackerpackerp.blob.core.windows.net/images/pkroshlqdn5kepx.vhd"
-    "pkrosma1pn5fgmm" = "https://saterraformpackerpackerp.blob.core.windows.net/images/pkrosma1pn5fgmm.vhd"
+    "pkros1v5nlqoh4g" = "https://saterraformpackerpackern.blob.core.windows.net/images/pkros1v5nlqoh4g.vhd"
   }
 }
 
