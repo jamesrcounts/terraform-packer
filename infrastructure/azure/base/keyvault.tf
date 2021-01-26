@@ -4,20 +4,13 @@ resource "azurerm_key_vault" "os_encryption" {
   enabled_for_disk_encryption     = true
   enabled_for_template_deployment = false
   location                        = azurerm_resource_group.main.location
-  name                            = "kv-${local.project}"
+  name                            = "kv-${local.project}-des"
   resource_group_name             = azurerm_resource_group.main.name
   sku_name                        = "standard"
-  soft_delete_enabled             = true
   soft_delete_retention_days      = 30
   purge_protection_enabled        = true
   tenant_id                       = data.azurerm_client_config.current.tenant_id
   tags                            = local.tags
-
-  contact {
-    email = "joe@olive-steel.com"
-    name  = "Joe Secrets"
-    phone = "(555) 555-5555"
-  }
 }
 
 resource "azurerm_key_vault_key" "des" {
