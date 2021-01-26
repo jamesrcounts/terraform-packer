@@ -16,7 +16,7 @@ variables:
     
 stages:
   - stage: 'Bootstrap'
-    pool: 'VMSS'
+    pool: 'Bootstrap'
     jobs:
       - job:
         displayName: 'Initial Image Generation'
