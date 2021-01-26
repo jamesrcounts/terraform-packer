@@ -1,9 +1,9 @@
-default: azure
+default: base
 
-azure:
-	cd infrastructure/azure && \
+base:
+	cd infrastructure/azure/base && \
 		make
 
-image:
-	cd infrastructure/images && \
+agents:
+	cd infrastructure/azure/agents && \
 		make
