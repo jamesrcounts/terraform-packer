@@ -4,8 +4,6 @@
 ##  Desc:  Installs sbt
 ################################################################################
 
-source $HELPER_SCRIPTS/invoke-tests.sh
-
 # Install sbt
 # https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html
 echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list

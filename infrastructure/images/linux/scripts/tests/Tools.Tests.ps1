@@ -1,9 +1,3 @@
-Describe "7-Zip" {
-    It "7z" {
-        "7z" | Should -ReturnZeroExitCode
-    }
-}
-
 Describe "azcopy" {
     It "azcopy" {
         #(azcopy --version) command returns exit code 1 (see details: https://github.com/Azure/azure-storage-azcopy/releases)
@@ -80,16 +74,6 @@ Describe "Docker" {
 Describe "Docker-compose" {
     It "docker-compose" {
         "docker-compose --version"| Should -ReturnZeroExitCode
-    }
-}
-
-Describe "PowerShell Core" {
-    It "pwsh" {
-        "pwsh --version" | Should -ReturnZeroExitCode
-    }
-
-    It "Execute 2+2 command" {
-        pwsh -Command "2+2" | Should -BeExactly 4
     }
 }
 
@@ -191,27 +175,9 @@ Describe "Sbt" {
     }
 }
 
-Describe "Sphinx" {
-    It "sphinx" {
-        "searchd -h" | Should -ReturnZeroExitCode
-    }
-}
-
 Describe "Selenium" {
     It "Selenium Server 'selenium-server-standalone.jar' is installed" {
         "/usr/share/java/selenium-server-standalone.jar" | Should -Exist
-    }
-}
-
-Describe "SVN" {
-    It "svn" {
-        "svn --version" | Should -ReturnZeroExitCode
-    }
-}
-
-Describe "Swig" {
-    It "swig" {
-        "swig -version" | Should -ReturnZeroExitCode
     }
 }
 
@@ -321,12 +287,6 @@ Describe "Packer" {
     }
 }
 
-Describe "Pollinate" {
-    It "pollinate" {
-        "sudo pollinate -r && sleep 5 && sudo grep pollinate /var/log/syslog" | Should -ReturnZeroExitCode
-    }
-}
-
 Describe "Pulumi" {
     It "pulumi" {
         "pulumi version" | Should -ReturnZeroExitCode
@@ -339,8 +299,44 @@ Describe "Phantomjs" {
     }
 }
 
-Describe "Haveged" {
-    It "haveged" {
-        "systemctl status haveged  | grep 'active (running)'" | Should -ReturnZeroExitCode
+Describe "Containers" -Skip:(Test-IsUbuntu16) {
+    $testCases = @("podman", "buildah", "skopeo") | ForEach-Object { @{ContainerCommand = $_} }
+
+    It "<ContainerCommand>" -TestCases $testCases {
+        param (
+            [string] $ContainerCommand
+        )
+
+        "$ContainerCommand -v" | Should -ReturnZeroExitCode
+    }   
+}
+
+Describe "Node.js" {
+    $testCases = @("node", "grunt", "gulp", "webpack", "parcel", "yarn", "newman") | ForEach-Object { @{NodeCommand = $_} }
+
+    It "<NodeCommand>" -TestCases $testCases {
+        param (
+            [string] $NodeCommand
+        )
+
+        "$NodeCommand --version" | Should -ReturnZeroExitCode
+    }   
+}
+
+Describe "nvm" {
+    It "nvm" {
+        "source /etc/skel/.nvm/nvm.sh && nvm --version" | Should -ReturnZeroExitCode
     }
+}
+
+Describe "Python" {
+    $testCases = @("python", "pip", "python3", "pip3") | ForEach-Object { @{PythonCommand = $_} }
+
+    It "<PythonCommand>" -TestCases $testCases {
+        param (
+            [string] $PythonCommand
+        )
+
+        "$PythonCommand --version" | Should -ReturnZeroExitCode
+    }   
 }
