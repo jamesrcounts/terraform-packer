@@ -11,7 +11,7 @@ variables:
   - name: image_readme_name
     value: Ubuntu2004-README.md
   - name: image_type
-    value: ubuntu2004.bootstrapper
+    value: ubuntu2004
 
 stages:
   - stage: 'Build'
