@@ -15,7 +15,7 @@ variables:
 
 stages:
   - stage: 'Build'
-    pool: 'Custom'
+    pool: 'Custom2'
     jobs:
       - job:
         displayName: Image Generation
