@@ -3,6 +3,7 @@
 ##  File:  oras-cli.sh
 ##  Desc:  Installs ORAS CLI
 ################################################################################
+set -euox pipefail
 
 source $HELPER_SCRIPTS/install.sh
 
