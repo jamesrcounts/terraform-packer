@@ -216,7 +216,6 @@
                 "{{template_dir}}/scripts/installers/pulumi.sh",
                 "{{template_dir}}/scripts/installers/ruby.sh",
                 "{{template_dir}}/scripts/installers/r.sh",
-                "{{template_dir}}/scripts/installers/rust.sh",
                 "{{template_dir}}/scripts/installers/julia.sh",
                 "{{template_dir}}/scripts/installers/sbt.sh",
                 "{{template_dir}}/scripts/installers/selenium.sh",
