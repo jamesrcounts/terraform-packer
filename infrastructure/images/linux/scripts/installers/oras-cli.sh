@@ -3,7 +3,6 @@
 ##  File:  oras-cli.sh
 ##  Desc:  Installs ORAS CLI
 ################################################################################
-set -ex
 
 source $HELPER_SCRIPTS/install.sh
 
