@@ -3,6 +3,7 @@
 ##  File:  rust.sh
 ##  Desc:  Installs Rust
 ################################################################################
+set -euox pipefail
 
 # Source the helpers for use with the script
 source $HELPER_SCRIPTS/etc-environment.sh
