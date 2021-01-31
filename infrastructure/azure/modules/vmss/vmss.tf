@@ -7,7 +7,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
   platform_fault_domain_count = 1
   resource_group_name         = local.resource_group_name
   single_placement_group      = false
-  sku                         = "Standard_DS2_v2"
+  sku                         = "Standard_D4s_v4"
   tags                        = local.tags
   upgrade_mode                = "Manual"
 
