@@ -4,7 +4,8 @@ module "vmss-custom" {
   disk_encryption_set_id = data.azurerm_key_vault_secret.secrets["disk-encryption-set-id"].value
   project                = "${local.project}-custom"
   resource_group         = data.azurerm_resource_group.main
-  source_image_id        = azurerm_image.agents["pkrosfccg6m89e7"].id
+  sku                    = "Standard_D4ds_v4"
+  source_image_id        = azurerm_image.agents["pkrdpm1d19vntby"].id
   subnet_id              = data.azurerm_key_vault_secret.secrets["agents-subnet-id"].value
   tags                   = local.tags
 
