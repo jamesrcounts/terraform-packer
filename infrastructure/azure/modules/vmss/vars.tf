@@ -17,6 +17,12 @@ variable "resource_group" {
   description = "The resource group in which to create module resources."
 }
 
+variable "sku" {
+  type        = string
+  default     = "Standard_DS2_v2"
+  description = "(Optional) The Virtual Machine SKU for the Scale Set, such as Standard_DS2_v2."
+}
+
 variable "source_image_id" {
   type        = string
   default     = null
