@@ -5,7 +5,7 @@ module "vmss-custom" {
   project                = "${local.project}-custom"
   resource_group         = data.azurerm_resource_group.main
   sku                    = "Standard_D4ds_v4"
-  source_image_id        = azurerm_image.agents["pkrosm1d19vntby"].id
+  source_image_id        = azurerm_image.agents["pkrosq4109u0tkc"].id
   subnet_id              = data.azurerm_key_vault_secret.secrets["agents-subnet-id"].value
   tags                   = local.tags
 

@@ -16,6 +16,10 @@ locals {
       blob_uri = "https://saterraformpackerpackern.blob.core.windows.net/images/pkrosm1d19vntby.vhd",
       size_gb  = 100
     }
+    "pkrosq4109u0tkc" = {
+      blob_uri = "https://saterraformpackerpackern.blob.core.windows.net/images/pkrosq4109u0tkc.vhd",
+      size_gb  = 100
+    }
   }
 }
 
