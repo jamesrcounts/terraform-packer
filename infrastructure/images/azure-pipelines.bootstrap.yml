@@ -155,7 +155,9 @@ stages:
             inputs:
               targetType: 'inline'
               script: 'sudo -E sh -c "$(installer_script_folder)/configure-environment.sh"'
-
+            env:
+              HELPER_SCRIPTS: $(helper_script_folder)
+              
           - task: Bash@3
             displayName: 'INSTALLER: complete-snap-setup'
             inputs:
