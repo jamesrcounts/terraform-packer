@@ -27,8 +27,6 @@
     ],
     "builders": [
         {
-            "capture_container_name": "images",
-            "capture_name_prefix": "{{user `capture_name_prefix`}}",
             "client_id": "{{user `client_id`}}",
             "client_secret": "{{user `client_secret`}}",
             "image_offer": "0001-com-ubuntu-server-focal",
@@ -40,8 +38,6 @@
             "os_disk_size_gb": "100",
             "os_type": "Linux",
             "private_virtual_network_with_public_ip": "{{user `private_virtual_network_with_public_ip`}}",
-            "resource_group_name": "{{user `resource_group`}}",
-            "storage_account": "{{user `storage_account`}}",
             "subscription_id": "{{user `subscription_id`}}",
             "temp_resource_group_name": "{{user `temp_resource_group_name`}}",
             "tenant_id": "{{user `tenant_id`}}",
