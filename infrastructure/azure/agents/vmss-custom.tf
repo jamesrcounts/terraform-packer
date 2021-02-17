@@ -5,7 +5,7 @@ module "vmss-custom" {
   project                = "${local.project}-custom"
   resource_group         = data.azurerm_resource_group.main
   sku                    = "Standard_D4ds_v4"
-  source_image_id        = azurerm_image.agents["pkrosq4109u0tkc"].id
+  source_image_id        = "/subscriptions/bbb80ca8-cf8a-4d13-8fa4-6027d7e5b71d/resourceGroups/rg-terraform-packer/providers/Microsoft.Compute/images/myPackerImage" //"azurerm_image.agents["pkrosq4109u0tkc"].id"
   subnet_id              = data.azurerm_key_vault_secret.secrets["agents-subnet-id"].value
   tags                   = local.tags
 
