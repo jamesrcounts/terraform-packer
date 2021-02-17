@@ -1,3 +1,5 @@
+name: 0.1.$(Rev:r)
+
 trigger:
   batch: true
   branches:
@@ -248,6 +250,7 @@ stages:
                                 -GitHubFeedToken $(GITHUB_TOKEN)
               addSpnToEnvironment: true
             env:
+              MANAGED_IMAGE_NAME: 'bootstrap-$(Build.BuildNumber)'
               PACKER_LOG: 1
               PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
 
