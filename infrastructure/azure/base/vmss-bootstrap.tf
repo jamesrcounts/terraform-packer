@@ -4,13 +4,14 @@ module "vmss-custom" {
   disk_encryption_set_id = local.disk_encryption_set_id
   project                = "${local.project}-bootstrap"
   resource_group         = local.agents_resource_group
+  sku                    = "Standard_D4ds_v4"
   subnet_id              = local.agents_subnet_id
   tags                   = local.tags
 
   source_image_reference = {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    sku       = "18_04-lts-gen2"
     version   = "latest"
   }
 
