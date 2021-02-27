@@ -10,6 +10,11 @@ resource "azuredevops_variable_group" "variablegroup" {
   }
 
   variable {
+    name  = "AZURE_STORAGE_ACCOUNT"
+    value = "unused"
+  }
+
+  variable {
     name  = "AZURE_LOCATION"
     value = "centralus"
   }
