@@ -1,7 +1,25 @@
 resource "azurerm_shared_image_gallery" "images" {
   description         = "Custom VM Images."
-  location            = azurerm_resource_group.main.location
+  location            = azurerm_resource_group.images.location
   name                = replace("sig-${local.project}", "-", ".")
-  resource_group_name = azurerm_resource_group.main.name
+  resource_group_name = azurerm_resource_group.images.name
   tags                = local.tags
+}
+
+resource "azurerm_shared_image" "bootstrap" {
+  description         = "Custom build agent bootstrapper."
+  gallery_name        = azurerm_shared_image_gallery.images.name
+  hyper_v_generation  = "V2"
+  location            = azurerm_resource_group.images.location
+  name                = "bootstrap"
+  os_type             = "Linux"
+  resource_group_name = azurerm_resource_group.images.name
+  specialized         = false
+  tags                = local.tags
+
+  identifier {
+    offer     = "Bootstrap"
+    publisher = local.project
+    sku       = "bootstrap"
+  }
 }
