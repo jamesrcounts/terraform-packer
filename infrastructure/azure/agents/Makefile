@@ -1,5 +1,8 @@
 default: apply
 
+clean:
+	terraform destroy -auto-approve
+	
 connect:
 	terraform init -get=false
 
