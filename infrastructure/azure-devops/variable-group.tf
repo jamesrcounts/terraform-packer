@@ -10,12 +10,6 @@ resource "azuredevops_variable_group" "variablegroup" {
   }
 
   variable {
-    name  = "AZURE_STORAGE_ACCOUNT"
-    value = "saterraformpackerpackern"
-
-  }
-
-  variable {
     name  = "AZURE_LOCATION"
     value = "centralus"
   }
@@ -38,6 +32,11 @@ resource "azuredevops_variable_group" "variablegroup" {
   variable {
     name  = "PRIVATE_VIRTUAL_NETWORK_WITH_PUBLIC_IP"
     value = true
+  }
+
+  variable {
+    name  = "SIG_NAME"
+    value = "sig.terraform.packer"
   }
 
   variable {

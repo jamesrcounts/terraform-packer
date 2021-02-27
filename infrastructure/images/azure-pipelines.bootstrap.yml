@@ -253,6 +253,7 @@ stages:
               MANAGED_IMAGE_NAME: 'bootstrap-$(Build.BuildNumber)'
               PACKER_LOG: 1
               PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
+              SIG_IMAGE_VERSION: $(Build.BuildNumber)
 
           - task: PowerShell@2
             displayName: 'Output Readme file content'

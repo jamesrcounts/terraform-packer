@@ -14,6 +14,8 @@
         "private_virtual_network_with_public_ip": "{{env `PRIVATE_VIRTUAL_NETWORK_WITH_PUBLIC_IP`}}",
         "resource_group": "{{env `ARM_RESOURCE_GROUP`}}",
         "run_validation_diskspace": "false",
+        "sig_image_version": "{{env `SIG_IMAGE_VERSION`}}",
+        "sig_name": "{{env `SIG_NAME`}}",
         "storage_account": "{{env `ARM_STORAGE_ACCOUNT`}}",
         "subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}",
         "temp_resource_group_name": "{{env `TEMP_RESOURCE_GROUP_NAME`}}",
@@ -30,9 +32,9 @@
         {
             "client_id": "{{user `client_id`}}",
             "client_secret": "{{user `client_secret`}}",
-            "image_offer": "0001-com-ubuntu-server-focal",
-            "image_publisher": "canonical",
-            "image_sku": "20_04-lts",
+            "image_offer": "UbuntuServer",
+            "image_publisher": "Canonical",
+            "image_sku": "18_04-lts-gen2",
             "location": "{{user `location`}}",
             "managed_image_name": "{{user `managed_image_name`}}",
             "managed_image_resource_group_name": "{{user `resource_group`}}",
@@ -46,7 +48,15 @@
             "virtual_network_name": "{{user `virtual_network_name`}}",
             "virtual_network_resource_group_name": "{{user `virtual_network_resource_group_name`}}",
             "virtual_network_subnet_name": "{{user `virtual_network_subnet_name`}}",
-            "vm_size": "{{user `vm_size`}}"
+            "vm_size": "{{user `vm_size`}}",
+            "shared_image_gallery_destination": {
+                "gallery_name": "{{user `sig_name`}}",
+                "image_name": "bootstrap",
+                "image_version": "{{user `sig_image_version`}}",
+                "replication_regions": ["{{user `location`}}"],
+                "resource_group": "{{user `resource_group`}}",
+                "subscription": "{{user `subscription_id`}}"
+            }
         }
     ],
     "provisioners": [
