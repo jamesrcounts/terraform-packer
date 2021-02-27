@@ -6,7 +6,7 @@ resource "azuredevops_variable_group" "variablegroup" {
 
   variable {
     name  = "AZURE_RESOURCE_GROUP"
-    value = "rg-${local.project}"
+    value = "rg-${local.project}-images"
   }
 
   variable {
