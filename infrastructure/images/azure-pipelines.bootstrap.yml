@@ -1,10 +1,10 @@
 name: 0.1.$(Rev:r)
 
-trigger:
-  batch: true
-  branches:
-    include:
-      - main
+# trigger:
+#   batch: true
+#   branches:
+#     include:
+#       - main
 
 variables:
   - group: terraform-packer
