@@ -275,12 +275,12 @@ stages:
                                 -PrintTopNLongest 25
 
           - task: Bash@3
+            displayName: 'Terraform Init'
             inputs:
-              filePath: './scripts/terraform-init.sh'
-              arguments: '$(Build.SourcesDirectory)'
+              targetType: 'inline'
+              script: 'terraform init -input=false'
               failOnStderr: true
-            env:
-              ARM_CLIENT_ID: $(AZURE_CLIENT_ID)
+              workingDirectory: infrastructure/azure/agents
 
                                 
           - task: AzureCLI@2
