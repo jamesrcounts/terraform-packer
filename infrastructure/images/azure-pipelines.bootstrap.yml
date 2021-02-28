@@ -227,7 +227,10 @@ stages:
                 Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
                 Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
                 Write-Host "##vso[task.setvariable variable=AZURE_SUBSCRIPTION;issecret=true]$(az account show --query 'id' -o tsv)"
-                
+                Write-Host "##vso[task.setvariable variable=AZURE_CLIENT_ID;issecret=true]${servicePrincipalId}"
+                Write-Host "##vso[task.setvariable variable=AZURE_CLIENT_SECRET;issecret=true]${servicePrincipalKey}"
+                Write-Host "##vso[task.setvariable variable=AZURE_TENANT_ID;issecret=true]${tenantId}"
+
           - task: AzureCLI@2
             displayName: 'Build VM'
             inputs:
@@ -270,7 +273,16 @@ stages:
               arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
                                 -PrefixToPathTrim "$(TemplateDirectoryPath)" `
                                 -PrintTopNLongest 25
-                
+
+          - task: Bash@3
+            inputs:
+              filePath: './scripts/terraform-init.sh'
+              arguments: '$(Build.SourcesDirectory)'
+              failOnStderr: true
+            env:
+              ARM_CLIENT_ID: $(AZURE_CLIENT_ID)
+
+                                
           - task: AzureCLI@2
             displayName: 'Clean up resources'
             condition: always()
@@ -286,3 +298,6 @@ stages:
                             -SubscriptionId $(AZURE_SUBSCRIPTION) `
                             -TenantId $env:tenantId
               addSpnToEnvironment: true
+
+
+
