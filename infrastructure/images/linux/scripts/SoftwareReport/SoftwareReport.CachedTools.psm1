@@ -13,7 +13,7 @@ function Get-ToolcachePyPyVersions {
     Get-ChildItem -Path $toolcachePath -Name | Sort-Object { [Version] $_ } | ForEach-Object {
         $pypyRootPath = Join-Path $toolcachePath $_ "x64"
         [string]$pypyVersionOutput = & "$pypyRootPath/bin/python" -c "import sys;print(sys.version)"
-        $pypyVersionOutput -match "^([\d\.]+) \(.+\) \[PyPy ([\d\.]+) .+]$" | Out-Null
+        $pypyVersionOutput -match "^([\d\.]+) \(.+\) \[PyPy ([\d\.]+\S*) .+]$" | Out-Null
         return "{0} [PyPy {1}]" -f $Matches[1], $Matches[2]
     }
 }
@@ -26,6 +26,19 @@ function Get-ToolcacheNodeVersions {
 function Get-ToolcacheGoVersions {
     $toolcachePath = Join-Path $env:AGENT_TOOLSDIRECTORY "go"
     return Get-ChildItem $toolcachePath -Name | Sort-Object { [Version]$_ }
+}
+
+function Build-GoEnvironmentTable {
+    return Get-CachedToolInstances -Name "go" -VersionCommand "version" | ForEach-Object {
+        $Version = [System.Version]($_.Version -Split(" "))[0]
+        $Name = "GOROOT_$($Version.major)_$($Version.minor)_X64"
+        $Value = (Get-Item env:\$Name).Value
+        [PSCustomObject] @{
+            "Name" = $Name
+            "Value" = (Get-Item env:\$Name).Value
+            "Architecture" = $_. Architecture
+        }
+    }
 }
 
 function Get-ToolcacheBoostVersions {
