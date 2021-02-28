@@ -194,7 +194,7 @@ stages:
                                     "azure-cli.sh"
                                     "basic.sh"
                                     "build-essential.sh"
-                                    "terraform.sh",
+                                    "terraform.sh"
                                     "packer.sh"
                                     )
                 
