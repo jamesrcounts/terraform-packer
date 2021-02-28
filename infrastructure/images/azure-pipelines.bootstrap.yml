@@ -18,7 +18,7 @@ variables:
     
 stages:
   - stage: 'Bootstrap'
-    pool: 'Bootstrap'
+    pool: 'Bootstrap2'
     jobs:
       - job:
         displayName: 'Initial Image Generation'
@@ -194,6 +194,7 @@ stages:
                                     "azure-cli.sh"
                                     "basic.sh"
                                     "build-essential.sh"
+                                    "terraform.sh",
                                     "packer.sh"
                                     )
                 
