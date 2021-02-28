@@ -13,7 +13,7 @@ variables:
   - name: image_readme_name
     value: Ubuntu1804-README.md
   - name: image_type
-    value: ubuntu1804
+    value: ubuntu1804.custom
 
 stages:
   - stage: 'Build'
