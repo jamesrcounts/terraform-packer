@@ -10,11 +10,10 @@ variables:
   - group: terraform-packer
   - name: DEBIAN_FRONTEND
     value: noninteractive
-
   - name: image_readme_name
-    value: Ubuntu2004-README.md
+    value: Ubuntu1804-README.md
   - name: image_type
-    value: ubuntu2004.bootstrapper
+    value: ubuntu1804.bootstrapper
     
 stages:
   - stage: 'Bootstrap'
