@@ -1,3 +1,5 @@
+name: 0.1.$(Rev:r)
+
 trigger:
   batch: true
   branches:
@@ -15,7 +17,7 @@ variables:
 
 stages:
   - stage: 'Build'
-    pool: 'Custom2'
+    pool: 'Bootstrap'
     jobs:
       - job:
         displayName: Image Generation
@@ -68,8 +70,10 @@ stages:
                               -GitHubFeedToken $(GITHUB_TOKEN)
             addSpnToEnvironment: true
           env:
-            PACKER_LOG: 1
-            PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
+              MANAGED_IMAGE_NAME: 'bootstrap-$(Build.BuildNumber)'
+              PACKER_LOG: 1
+              PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
+              SIG_IMAGE_VERSION: $(Build.BuildNumber)
       
         - task: PowerShell@2
           displayName: 'Output Readme file content'
