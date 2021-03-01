@@ -163,7 +163,7 @@ stages:
                 mkdir -p ~/.terraform.d
                 TMPFILE=$(mktemp)
                 echo ${TFE_CREDENTIALS} > ${TMPFILE}
-                base65 --decode ${TMPFILE} > ~/.terraform.d/credentials.tfrc.json
+                base64 --decode ${TMPFILE} > ~/.terraform.d/credentials.tfrc.json
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
             env:
