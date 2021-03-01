@@ -159,7 +159,8 @@ stages:
               targetType: 'inline'
               script: |
                 set -euo pipefail
-                
+
+                mkdir -p ~/.terraform.d
                 echo ${TFE_CREDENTIALS} > ~/.terraform.d/credentials.tfrc.json
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
