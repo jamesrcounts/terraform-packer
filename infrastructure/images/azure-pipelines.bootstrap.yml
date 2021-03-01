@@ -270,6 +270,7 @@ stages:
                 
                 declare -a SCRIPTS=(
                                     "azure-cli.sh"
+                                    "basic.sh"
                                     "packer.sh"
                                     )
                 
