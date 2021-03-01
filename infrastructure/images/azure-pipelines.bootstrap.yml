@@ -291,6 +291,10 @@ stages:
                 echo "Show Packer Version"
                 packer --version
 
+                packer validate -syntax-only ${TEMPLATE_PATH}
+            env:
+              TEMPLATE_PATH: "./infrastructure/images/bootstrap/ubuntu1804.bootstraper.json"
+
           # - task: PowerShell@2
           #   displayName: 'Output Readme file content'
           #   inputs:
