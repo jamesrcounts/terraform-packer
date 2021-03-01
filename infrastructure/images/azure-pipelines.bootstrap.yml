@@ -267,7 +267,7 @@ stages:
                 
                 INSTALLER="./infrastructure/images/bootstrap/scripts/installers/azure-cli.sh"
                 chmod 777 ${INSTALLER}
-                sudo -E sh -c "${INSTALLER"
+                sudo -E sh -c "${INSTALLER}"
             
           - task: AzureCLI@2
             displayName: 'Build Bootstrap Image'
