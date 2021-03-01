@@ -153,6 +153,17 @@ stages:
               TEMPLATE_PATH: "./infrastructure/images/bootstrap/ubuntu1804.bootstrapper.json"
 
           - task: Bash@3
+            displayName: 'Terraform Login'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                
+                echo ${TFE_TOKEN} > ~/.terraform.d/credentials.tfrc.json
+              failOnStderr: true
+              workingDirectory: infrastructure/azure/agents
+
+          - task: Bash@3
             displayName: 'Terraform Init'
             inputs:
               targetType: 'inline'
