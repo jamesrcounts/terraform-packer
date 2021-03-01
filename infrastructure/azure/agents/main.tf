@@ -1,5 +1,6 @@
 locals {
-  project = "terraform-packer"
+  project              = "terraform-packer"
+  shared_image_version = var.shared_image_version
 
   tags = {
     project = local.project
