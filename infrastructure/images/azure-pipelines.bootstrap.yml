@@ -1,15 +1,15 @@
 name: 0.1.$(Rev:r)
 
-# trigger:
-#   batch: true
-#   branches:
-#     include:
-#       - main
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
 
-# variables:
-#   - group: terraform-packer
-#   - name: DEBIAN_FRONTEND
-#     value: noninteractive
+variables:
+  - group: terraform-packer
+  - name: DEBIAN_FRONTEND
+    value: noninteractive
 #   - name: image_readme_name
 #     value: Ubuntu1804-README.md
 #   - name: image_type
