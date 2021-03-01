@@ -10,10 +10,6 @@ variables:
   - group: terraform-packer
   - name: DEBIAN_FRONTEND
     value: noninteractive
-#   - name: image_readme_name
-#     value: Ubuntu1804-README.md
-#   - name: image_type
-#     value: ubuntu1804.bootstrapper
     
 stages:
   - stage: 'Bootstrap'
@@ -23,195 +19,29 @@ stages:
         displayName: 'Initial Image Generation'
         timeoutInMinutes: 600
         cancelTimeoutInMinutes: 30
-        variables:
-          - name: base_dir
-            value: $(template_dir)/scripts/base
-          - name: helper_script_folder
-            value: $(image_folder)/helpers
-          - name: imagedata_file
-            value: $(image_folder)/imagedata.json
-          - name: image_folder
-            value: /imagegeneration
-          - name: image_version
-            value: dev
-          - name: installer_script_folder
-            value: $(image_folder)/installers
-          - name: template_dir 
-            value: /imagetemplate
-          - name: toolset_version
-            value: 1804
-          - name: image_os
-            value: ubuntu18
+        # variables:
+        #   - name: base_dir
+        #     value: $(template_dir)/scripts/base
+        #   - name: helper_script_folder
+        #     value: $(image_folder)/helpers
+        #   - name: imagedata_file
+        #     value: $(image_folder)/imagedata.json
+        #   - name: image_folder
+        #     value: /imagegeneration
+        #   - name: image_version
+        #     value: dev
+        #   - name: installer_script_folder
+        #     value: $(image_folder)/installers
+        #   - name: template_dir 
+        #     value: /imagetemplate
+        #   - name: toolset_version
+        #     value: 1804
+        #   - name: image_os
+        #     value: ubuntu18
         steps:
           - checkout: self
             fetchDepth: 1
 
-          # - task: Bash@3
-          #   displayName: 'Create image folder'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'mkdir $(image_folder)'
-          #       sudo -E sh -c 'chmod 777  $(image_folder)'
-
-          # - task: Bash@3
-          #   displayName: 'Create template folder'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'mkdir $(template_dir)'
-          #       sudo -E sh -c 'cp -Rv ./infrastructure/images/linux/* $(template_dir)'
-          #       sudo -E sh -c 'chmod -Rv +x  $(template_dir)/*'
-
-          # - task: Bash@3
-          #   displayName: 'BASE: apt-mock'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(base_dir)/apt-mock.sh"'
-
-          # - task: Bash@3
-          #   displayName: 'BASE: repos'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(base_dir)/repos.sh"'
-
-          # - task: Bash@3
-          #   displayName: 'BASE: apt'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(base_dir)/apt.sh"'
-          
-          # - task: Bash@3
-          #   displayName: 'BASE: limits'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(base_dir)/limits.sh"'
-
-          # - task: Bash@3
-          #   displayName: 'Create helper folder'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'mkdir $(helper_script_folder)'
-          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/helpers/* $(helper_script_folder)'
-          #       # sudo -E sh -c 'chmod -Rv 777  $(helper_script_folder)/*'
-
-          # - task: Bash@3
-          #   displayName: 'Create installers folder'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'mkdir $(installer_script_folder)'
-          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/installers/* $(installer_script_folder)'
-          #       # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
-
-          # - task: Bash@3
-          #   displayName: 'Copy post-generation folder'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'cp -Rv $(template_dir)/post-generation $(image_folder)'
-          #       # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
-    
-          # - task: Bash@3
-          #   displayName: 'Copy tests folder'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/tests $(image_folder)'
-          #       # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
-
-          # - task: Bash@3
-          #   displayName: 'Copy SoftwareReport folder'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/SoftwareReport $(image_folder)'
-          #       # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
-
-          # - task: Bash@3
-          #   displayName: 'Copy toolset manifest'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c 'cp -Rv $(template_dir)/toolsets/toolset-$(toolset_version).json $(installer_script_folder)/toolset.json'
-          #       # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
-
-          # - task: Bash@3
-          #   displayName: 'INSTALLER: preimagedata'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(installer_script_folder)/preimagedata.sh"'
-
-          # - task: Bash@3
-          #   displayName: 'INSTALLER: configure-environment'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(installer_script_folder)/configure-environment.sh"'
-          #   env:
-          #     HELPER_SCRIPTS: $(helper_script_folder)
-              
-          # - task: Bash@3
-          #   displayName: 'INSTALLER: complete-snap-setup'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(installer_script_folder)/complete-snap-setup.sh"'
-          #   env:
-          #     HELPER_SCRIPTS: $(helper_script_folder)
-
-          # - task: Bash@3
-          #   displayName: 'INSTALLER: powershellcore'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'sudo -E sh -c "$(installer_script_folder)/powershellcore.sh"'
-
-          # - task: Bash@3
-          #   displayName: 'INSTALLER: powershell modules'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       sudo -E sh -c "pwsh -f $(installer_script_folder)/Install-PowerShellModules.ps1"
-          #   env:
-          #       HELPER_SCRIPTS: $(helper_script_folder)
-                
-          # - task: Bash@3
-          #   displayName: 'INSTALLER: minimal packages'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       declare -a SCRIPTS=(
-          #                           "azure-cli.sh"
-          #                           "basic.sh"
-          #                           "build-essential.sh"
-          #                           "terraform.sh"
-          #                           "packer.sh"
-          #                           )
-                
-          #       for SCRIPT in "${SCRIPTS[@]}"
-          #       do
-          #         sudo -E sh -c "$(installer_script_folder)/${SCRIPT}"
-          #       done  
-          #   env:
-          #       HELPER_SCRIPTS: $(helper_script_folder)
-
-          # - task: Bash@3
-          #   displayName: 'Fix Home Directory Permissions'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       set -euo pipefail
-          #       # AZ CLI task fails without this.
-          #       sudo chmod -Rv 755 /home/AzDevOps
 
           # - task: AzureCLI@2
           #   displayName: 'Set image template variables'
@@ -321,29 +151,13 @@ stages:
             env:
               TEMPLATE_PATH: "./infrastructure/images/bootstrap/ubuntu1804.bootstrapper.json"
 
-          # - task: PowerShell@2
-          #   displayName: 'Output Readme file content'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "$(image_readme_name)")
-        
-          # - task: PowerShell@2
-          #   displayName: 'Print provisioners duration'
-          #   inputs:
-          #     targetType: 'filePath'
-          #     filePath: ./infrastructure/images/measure-provisioners-duration.ps1
-          #     arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
-          #                       -PrefixToPathTrim "$(TemplateDirectoryPath)" `
-          #                       -PrintTopNLongest 25
-
-          # - task: Bash@3
-          #   displayName: 'Terraform Init'
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: 'terraform init -input=false'
-          #     failOnStderr: true
-          #     workingDirectory: infrastructure/azure/agents
+          - task: Bash@3
+            displayName: 'Terraform Init'
+            inputs:
+              targetType: 'inline'
+              script: 'terraform init -input=false'
+              failOnStderr: true
+              workingDirectory: infrastructure/azure/agents
 
                                 
           # - task: AzureCLI@2
