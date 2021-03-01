@@ -46,6 +46,12 @@ resource "azuredevops_variable_group" "variablegroup" {
 
   variable {
     is_secret = true
+    name      = "TFE_TOKEN"
+    value     = local.tfe_token
+  }
+
+  variable {
+    is_secret = true
     name      = "GITHUB_TOKEN"
     value     = local.github_pat
   }

@@ -5,6 +5,7 @@ locals {
   project         = "terraform-packer"
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
+  tfe_token       = var.tfe_token
 
   tags = {
     project = local.project

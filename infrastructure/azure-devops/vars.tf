@@ -24,3 +24,9 @@ variable "tenant_id" {
   description = "Tenant ID for the AzureRM Service Connection"
   type        = string
 }
+
+variable "tfe_token" {
+  description = "Terraform Cloud Credential"
+  sensitive   = true
+  type        = string
+}
