@@ -6,14 +6,14 @@ name: 0.1.$(Rev:r)
 #     include:
 #       - main
 
-variables:
-  - group: terraform-packer
-  - name: DEBIAN_FRONTEND
-    value: noninteractive
-  - name: image_readme_name
-    value: Ubuntu1804-README.md
-  - name: image_type
-    value: ubuntu1804.bootstrapper
+# variables:
+#   - group: terraform-packer
+#   - name: DEBIAN_FRONTEND
+#     value: noninteractive
+#   - name: image_readme_name
+#     value: Ubuntu1804-README.md
+#   - name: image_type
+#     value: ubuntu1804.bootstrapper
     
 stages:
   - stage: 'Bootstrap'
@@ -46,258 +46,258 @@ stages:
           - checkout: self
             fetchDepth: 1
 
-          - task: Bash@3
-            displayName: 'Create image folder'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'mkdir $(image_folder)'
-                sudo -E sh -c 'chmod 777  $(image_folder)'
+          # - task: Bash@3
+          #   displayName: 'Create image folder'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'mkdir $(image_folder)'
+          #       sudo -E sh -c 'chmod 777  $(image_folder)'
 
-          - task: Bash@3
-            displayName: 'Create template folder'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'mkdir $(template_dir)'
-                sudo -E sh -c 'cp -Rv ./infrastructure/images/linux/* $(template_dir)'
-                sudo -E sh -c 'chmod -Rv +x  $(template_dir)/*'
+          # - task: Bash@3
+          #   displayName: 'Create template folder'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'mkdir $(template_dir)'
+          #       sudo -E sh -c 'cp -Rv ./infrastructure/images/linux/* $(template_dir)'
+          #       sudo -E sh -c 'chmod -Rv +x  $(template_dir)/*'
 
-          - task: Bash@3
-            displayName: 'BASE: apt-mock'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(base_dir)/apt-mock.sh"'
+          # - task: Bash@3
+          #   displayName: 'BASE: apt-mock'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(base_dir)/apt-mock.sh"'
 
-          - task: Bash@3
-            displayName: 'BASE: repos'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(base_dir)/repos.sh"'
+          # - task: Bash@3
+          #   displayName: 'BASE: repos'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(base_dir)/repos.sh"'
 
-          - task: Bash@3
-            displayName: 'BASE: apt'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(base_dir)/apt.sh"'
+          # - task: Bash@3
+          #   displayName: 'BASE: apt'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(base_dir)/apt.sh"'
           
-          - task: Bash@3
-            displayName: 'BASE: limits'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(base_dir)/limits.sh"'
+          # - task: Bash@3
+          #   displayName: 'BASE: limits'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(base_dir)/limits.sh"'
 
-          - task: Bash@3
-            displayName: 'Create helper folder'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'mkdir $(helper_script_folder)'
-                sudo -E sh -c 'cp -Rv $(template_dir)/scripts/helpers/* $(helper_script_folder)'
-                # sudo -E sh -c 'chmod -Rv 777  $(helper_script_folder)/*'
+          # - task: Bash@3
+          #   displayName: 'Create helper folder'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'mkdir $(helper_script_folder)'
+          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/helpers/* $(helper_script_folder)'
+          #       # sudo -E sh -c 'chmod -Rv 777  $(helper_script_folder)/*'
 
-          - task: Bash@3
-            displayName: 'Create installers folder'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'mkdir $(installer_script_folder)'
-                sudo -E sh -c 'cp -Rv $(template_dir)/scripts/installers/* $(installer_script_folder)'
-                # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
+          # - task: Bash@3
+          #   displayName: 'Create installers folder'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'mkdir $(installer_script_folder)'
+          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/installers/* $(installer_script_folder)'
+          #       # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
 
-          - task: Bash@3
-            displayName: 'Copy post-generation folder'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'cp -Rv $(template_dir)/post-generation $(image_folder)'
-                # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
+          # - task: Bash@3
+          #   displayName: 'Copy post-generation folder'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'cp -Rv $(template_dir)/post-generation $(image_folder)'
+          #       # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
     
-          - task: Bash@3
-            displayName: 'Copy tests folder'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'cp -Rv $(template_dir)/scripts/tests $(image_folder)'
-                # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
+          # - task: Bash@3
+          #   displayName: 'Copy tests folder'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/tests $(image_folder)'
+          #       # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
 
-          - task: Bash@3
-            displayName: 'Copy SoftwareReport folder'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'cp -Rv $(template_dir)/scripts/SoftwareReport $(image_folder)'
-                # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
+          # - task: Bash@3
+          #   displayName: 'Copy SoftwareReport folder'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'cp -Rv $(template_dir)/scripts/SoftwareReport $(image_folder)'
+          #       # sudo -E sh -c 'chmod -Rv 777  $(image_folder)/*'
 
-          - task: Bash@3
-            displayName: 'Copy toolset manifest'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c 'cp -Rv $(template_dir)/toolsets/toolset-$(toolset_version).json $(installer_script_folder)/toolset.json'
-                # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
+          # - task: Bash@3
+          #   displayName: 'Copy toolset manifest'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c 'cp -Rv $(template_dir)/toolsets/toolset-$(toolset_version).json $(installer_script_folder)/toolset.json'
+          #       # sudo -E sh -c 'chmod -Rv 777  $(installer_script_folder)/*'
 
-          - task: Bash@3
-            displayName: 'INSTALLER: preimagedata'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(installer_script_folder)/preimagedata.sh"'
+          # - task: Bash@3
+          #   displayName: 'INSTALLER: preimagedata'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(installer_script_folder)/preimagedata.sh"'
 
-          - task: Bash@3
-            displayName: 'INSTALLER: configure-environment'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(installer_script_folder)/configure-environment.sh"'
-            env:
-              HELPER_SCRIPTS: $(helper_script_folder)
+          # - task: Bash@3
+          #   displayName: 'INSTALLER: configure-environment'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(installer_script_folder)/configure-environment.sh"'
+          #   env:
+          #     HELPER_SCRIPTS: $(helper_script_folder)
               
-          - task: Bash@3
-            displayName: 'INSTALLER: complete-snap-setup'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(installer_script_folder)/complete-snap-setup.sh"'
-            env:
-              HELPER_SCRIPTS: $(helper_script_folder)
+          # - task: Bash@3
+          #   displayName: 'INSTALLER: complete-snap-setup'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(installer_script_folder)/complete-snap-setup.sh"'
+          #   env:
+          #     HELPER_SCRIPTS: $(helper_script_folder)
 
-          - task: Bash@3
-            displayName: 'INSTALLER: powershellcore'
-            inputs:
-              targetType: 'inline'
-              script: 'sudo -E sh -c "$(installer_script_folder)/powershellcore.sh"'
+          # - task: Bash@3
+          #   displayName: 'INSTALLER: powershellcore'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'sudo -E sh -c "$(installer_script_folder)/powershellcore.sh"'
 
-          - task: Bash@3
-            displayName: 'INSTALLER: powershell modules'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                sudo -E sh -c "pwsh -f $(installer_script_folder)/Install-PowerShellModules.ps1"
-            env:
-                HELPER_SCRIPTS: $(helper_script_folder)
+          # - task: Bash@3
+          #   displayName: 'INSTALLER: powershell modules'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       sudo -E sh -c "pwsh -f $(installer_script_folder)/Install-PowerShellModules.ps1"
+          #   env:
+          #       HELPER_SCRIPTS: $(helper_script_folder)
                 
-          - task: Bash@3
-            displayName: 'INSTALLER: minimal packages'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                declare -a SCRIPTS=(
-                                    "azure-cli.sh"
-                                    "basic.sh"
-                                    "build-essential.sh"
-                                    "terraform.sh"
-                                    "packer.sh"
-                                    )
+          # - task: Bash@3
+          #   displayName: 'INSTALLER: minimal packages'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       declare -a SCRIPTS=(
+          #                           "azure-cli.sh"
+          #                           "basic.sh"
+          #                           "build-essential.sh"
+          #                           "terraform.sh"
+          #                           "packer.sh"
+          #                           )
                 
-                for SCRIPT in "${SCRIPTS[@]}"
-                do
-                  sudo -E sh -c "$(installer_script_folder)/${SCRIPT}"
-                done  
-            env:
-                HELPER_SCRIPTS: $(helper_script_folder)
+          #       for SCRIPT in "${SCRIPTS[@]}"
+          #       do
+          #         sudo -E sh -c "$(installer_script_folder)/${SCRIPT}"
+          #       done  
+          #   env:
+          #       HELPER_SCRIPTS: $(helper_script_folder)
 
-          - task: Bash@3
-            displayName: 'Fix Home Directory Permissions'
-            inputs:
-              targetType: 'inline'
-              script: |
-                set -euo pipefail
-                # AZ CLI task fails without this.
-                sudo chmod -Rv 755 /home/AzDevOps
+          # - task: Bash@3
+          #   displayName: 'Fix Home Directory Permissions'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       set -euo pipefail
+          #       # AZ CLI task fails without this.
+          #       sudo chmod -Rv 755 /home/AzDevOps
 
-          - task: AzureCLI@2
-            displayName: 'Set image template variables'
-            inputs:
-              azureSubscription: 'Azure'
-              scriptType: 'pscore'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                $ImageType = "$(image_type)"
-                $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
-                $TemplateDirectoryPath = Join-Path "infrastructure/images" $TemplateDirectoryName | Resolve-Path
-                $TemplatePath = Join-Path $TemplateDirectoryPath "$ImageType.json"
-                Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
-                Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
-                Write-Host "##vso[task.setvariable variable=AZURE_SUBSCRIPTION;issecret=true]$(az account show --query 'id' -o tsv)"
-                Write-Host "##vso[task.setvariable variable=AZURE_CLIENT_ID;issecret=true]${servicePrincipalId}"
-                Write-Host "##vso[task.setvariable variable=AZURE_CLIENT_SECRET;issecret=true]${servicePrincipalKey}"
-                Write-Host "##vso[task.setvariable variable=AZURE_TENANT_ID;issecret=true]${tenantId}"
+          # - task: AzureCLI@2
+          #   displayName: 'Set image template variables'
+          #   inputs:
+          #     azureSubscription: 'Azure'
+          #     scriptType: 'pscore'
+          #     scriptLocation: 'inlineScript'
+          #     inlineScript: |
+          #       $ImageType = "$(image_type)"
+          #       $TemplateDirectoryName = if ($ImageType.StartsWith("ubuntu")) { "linux" } else { "win" }
+          #       $TemplateDirectoryPath = Join-Path "infrastructure/images" $TemplateDirectoryName | Resolve-Path
+          #       $TemplatePath = Join-Path $TemplateDirectoryPath "$ImageType.json"
+          #       Write-Host "##vso[task.setvariable variable=TemplateDirectoryPath;]$TemplateDirectoryPath"
+          #       Write-Host "##vso[task.setvariable variable=TemplatePath;]$TemplatePath"
+          #       Write-Host "##vso[task.setvariable variable=AZURE_SUBSCRIPTION;issecret=true]$(az account show --query 'id' -o tsv)"
+          #       Write-Host "##vso[task.setvariable variable=AZURE_CLIENT_ID;issecret=true]${servicePrincipalId}"
+          #       Write-Host "##vso[task.setvariable variable=AZURE_CLIENT_SECRET;issecret=true]${servicePrincipalKey}"
+          #       Write-Host "##vso[task.setvariable variable=AZURE_TENANT_ID;issecret=true]${tenantId}"
 
-          - task: AzureCLI@2
-            displayName: 'Build VM'
-            inputs:
-              azureSubscription: 'Azure'
-              scriptType: 'pscore'
-              scriptLocation: 'scriptPath'
-              scriptPath: './infrastructure/images/build-image.ps1'
-              arguments: -ResourcesNamePrefix $(Build.BuildId) `
-                                -ClientId $env:servicePrincipalId `
-                                -ClientSecret $env:servicePrincipalKey `
-                                -TemplatePath $(TemplatePath) `
-                                -ResourceGroup $(AZURE_RESOURCE_GROUP) `
-                                -StorageAccount $(AZURE_STORAGE_ACCOUNT) `
-                                -SubscriptionId $(AZURE_SUBSCRIPTION) `
-                                -TenantId $env:tenantId `
-                                -Location $(AZURE_LOCATION) `
-                                -VirtualNetworkName $(BUILD_AGENT_VNET_NAME) `
-                                -VirtualNetworkRG $(BUILD_AGENT_VNET_RESOURCE_GROUP) `
-                                -VirtualNetworkSubnet $(BUILD_AGENT_SUBNET_NAME) `
-                                -GitHubFeedToken $(GITHUB_TOKEN)
-              addSpnToEnvironment: true
-            env:
-              MANAGED_IMAGE_NAME: 'bootstrap-$(Build.BuildNumber)'
-              PACKER_LOG: 1
-              PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
-              SIG_IMAGE_VERSION: $(Build.BuildNumber)
+          # - task: AzureCLI@2
+          #   displayName: 'Build VM'
+          #   inputs:
+          #     azureSubscription: 'Azure'
+          #     scriptType: 'pscore'
+          #     scriptLocation: 'scriptPath'
+          #     scriptPath: './infrastructure/images/build-image.ps1'
+          #     arguments: -ResourcesNamePrefix $(Build.BuildId) `
+          #                       -ClientId $env:servicePrincipalId `
+          #                       -ClientSecret $env:servicePrincipalKey `
+          #                       -TemplatePath $(TemplatePath) `
+          #                       -ResourceGroup $(AZURE_RESOURCE_GROUP) `
+          #                       -StorageAccount $(AZURE_STORAGE_ACCOUNT) `
+          #                       -SubscriptionId $(AZURE_SUBSCRIPTION) `
+          #                       -TenantId $env:tenantId `
+          #                       -Location $(AZURE_LOCATION) `
+          #                       -VirtualNetworkName $(BUILD_AGENT_VNET_NAME) `
+          #                       -VirtualNetworkRG $(BUILD_AGENT_VNET_RESOURCE_GROUP) `
+          #                       -VirtualNetworkSubnet $(BUILD_AGENT_SUBNET_NAME) `
+          #                       -GitHubFeedToken $(GITHUB_TOKEN)
+          #     addSpnToEnvironment: true
+          #   env:
+          #     MANAGED_IMAGE_NAME: 'bootstrap-$(Build.BuildNumber)'
+          #     PACKER_LOG: 1
+          #     PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
+          #     SIG_IMAGE_VERSION: $(Build.BuildNumber)
 
-          - task: PowerShell@2
-            displayName: 'Output Readme file content'
-            inputs:
-              targetType: 'inline'
-              script: |
-                Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "$(image_readme_name)")
+          # - task: PowerShell@2
+          #   displayName: 'Output Readme file content'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       Get-Content -Path (Join-Path "$(TemplateDirectoryPath)" "$(image_readme_name)")
         
-          - task: PowerShell@2
-            displayName: 'Print provisioners duration'
-            inputs:
-              targetType: 'filePath'
-              filePath: ./infrastructure/images/measure-provisioners-duration.ps1
-              arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
-                                -PrefixToPathTrim "$(TemplateDirectoryPath)" `
-                                -PrintTopNLongest 25
+          # - task: PowerShell@2
+          #   displayName: 'Print provisioners duration'
+          #   inputs:
+          #     targetType: 'filePath'
+          #     filePath: ./infrastructure/images/measure-provisioners-duration.ps1
+          #     arguments: -PackerLogPath "$(Build.ArtifactStagingDirectory)/packer-log.txt" `
+          #                       -PrefixToPathTrim "$(TemplateDirectoryPath)" `
+          #                       -PrintTopNLongest 25
 
-          - task: Bash@3
-            displayName: 'Terraform Init'
-            inputs:
-              targetType: 'inline'
-              script: 'terraform init -input=false'
-              failOnStderr: true
-              workingDirectory: infrastructure/azure/agents
+          # - task: Bash@3
+          #   displayName: 'Terraform Init'
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: 'terraform init -input=false'
+          #     failOnStderr: true
+          #     workingDirectory: infrastructure/azure/agents
 
                                 
-          - task: AzureCLI@2
-            displayName: 'Clean up resources'
-            condition: always()
-            inputs:
-              azureSubscription: 'Azure'
-              scriptType: 'pscore'
-              scriptLocation: 'scriptPath'
-              scriptPath: './infrastructure/images/cleanup.ps1'
-              arguments: -ResourcesNamePrefix $(Build.BuildId) `
-                            -ClientId $env:servicePrincipalId `
-                            -ClientSecret $env:servicePrincipalKey `
-                            -Image $(image_type) `
-                            -SubscriptionId $(AZURE_SUBSCRIPTION) `
-                            -TenantId $env:tenantId
-              addSpnToEnvironment: true
+          # - task: AzureCLI@2
+          #   displayName: 'Clean up resources'
+          #   condition: always()
+          #   inputs:
+          #     azureSubscription: 'Azure'
+          #     scriptType: 'pscore'
+          #     scriptLocation: 'scriptPath'
+          #     scriptPath: './infrastructure/images/cleanup.ps1'
+          #     arguments: -ResourcesNamePrefix $(Build.BuildId) `
+          #                   -ClientId $env:servicePrincipalId `
+          #                   -ClientSecret $env:servicePrincipalKey `
+          #                   -Image $(image_type) `
+          #                   -SubscriptionId $(AZURE_SUBSCRIPTION) `
+          #                   -TenantId $env:tenantId
+          #     addSpnToEnvironment: true
 
 
 
