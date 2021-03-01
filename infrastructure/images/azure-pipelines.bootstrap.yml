@@ -293,8 +293,9 @@ stages:
 
                 packer validate -syntax-only ${TEMPLATE_PATH}
 
-                echo "Build $Image VM"
-                packer build    $TemplatePath 
+                IMAGE=$(basename ${TEMPLATE_PATH} ".json")
+                echo "Build ${IMAGE} VM"
+                packer build    ${TEMPLATE_PATH} 
 
                 # packer build    -var "capture_name_prefix=$ResourcesNamePrefix" \
                 #                 -var "client_id=$ClientId" \
