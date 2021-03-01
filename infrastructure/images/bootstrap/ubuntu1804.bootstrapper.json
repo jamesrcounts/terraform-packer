@@ -12,7 +12,7 @@
         "location": "{{env `ARM_RESOURCE_LOCATION`}}",
         "managed_image_name":"{{env `MANAGED_IMAGE_NAME`}}",
         "private_virtual_network_with_public_ip": "{{env `PRIVATE_VIRTUAL_NETWORK_WITH_PUBLIC_IP`}}",
-        "resource_group": "{{env `ARM_RESOURCE_GROUP`}}",
+        "managed_image_resource_group_name": "{{env `ARM_RESOURCE_GROUP`}}",
         "run_validation_diskspace": "false",
         "sig_image_version": "{{env `SIG_IMAGE_VERSION`}}",
         "sig_name": "{{env `SIG_NAME`}}",
@@ -37,7 +37,7 @@
             "image_sku": "18_04-lts-gen2",
             "location": "{{user `location`}}",
             "managed_image_name": "{{user `managed_image_name`}}",
-            "managed_image_resource_group_name": "{{user `resource_group`}}",
+            "managed_image_resource_group_name": "{{user `managed_image_resource_group_name`}}",
             "os_disk_size_gb": "100",
             "os_type": "Linux",
             "private_virtual_network_with_public_ip": "{{user `private_virtual_network_with_public_ip`}}",
@@ -54,7 +54,7 @@
                 "image_name": "bootstrap",
                 "image_version": "{{user `sig_image_version`}}",
                 "replication_regions": ["{{user `location`}}"],
-                "resource_group": "{{user `resource_group`}}",
+                "resource_group": "{{user `managed_image_resource_group_name`}}",
                 "subscription": "{{user `subscription_id`}}"
             }
         }
