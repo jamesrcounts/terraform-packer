@@ -189,7 +189,7 @@ stages:
               script: |
                 set -euo pipefail
                 
-                terraform plan -o $(Build.BuildNumber).tfplan
+                terraform plan -out=$(Build.BuildNumber).tfplan
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
                                 
