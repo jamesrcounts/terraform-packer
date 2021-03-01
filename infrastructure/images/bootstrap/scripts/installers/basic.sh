@@ -6,6 +6,7 @@
 declare -a common_packages=()
 declare -a cmd_packages=(
     jq
+    unzip
 )
 
 for package in $common_packages $cmd_packages; do
