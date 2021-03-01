@@ -296,17 +296,17 @@ stages:
                 IMAGE=$(basename ${TEMPLATE_PATH} ".json")
                 echo "Build ${IMAGE} VM"
                 packer build    \
-                                -var "client_id=$ClientId" \
-                                -var "client_secret=$ClientSecret" \
+                                -var "client_id=${servicePrincipalId}" \
+                                -var "client_secret=${servicePrincipalKey}" \
                                 -var "location=${AZURE_LOCATION}" \
                                 -var "managed_image_name=bootstrap-$(Build.BuildNumber)" \
                                 -var "managed_image_resource_group_name=${AZURE_RESOURCE_GROUP}" \
                                 -var "sig_image_version=$(Build.BuildNumber)" \
-                                -var "subscription_id=$SubscriptionId" \
-                                -var "tenant_id=$TenantId" \
+                                -var "subscription_id=${AZURE_SUBSCRIPTION}" \
+                                -var "tenant_id=${tenantId}" \
                                 ${TEMPLATE_PATH} 
 
-                #                 -var "install_password=$InstallPassword" \
+                                #                 -var "install_password=$InstallPassword" \
                 #                 -var "github_feed_token=$GitHubFeedToken" \
                 #                 -var "storage_account=$StorageAccount" \
                 #                 -var "temp_resource_group_name=$TempResourceGroupName" \
