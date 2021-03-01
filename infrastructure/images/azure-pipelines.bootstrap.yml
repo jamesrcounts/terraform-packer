@@ -266,7 +266,7 @@ stages:
                 set -euo pipefail
                 
                 INSTALLER_FOLDER="./infrastructure/images/bootstrap/scripts/installers"
-                chmod -Rv 777 "${INSTALLER_FOLDER}/*"
+                chmod -Rv 777 "${INSTALLER_FOLDER}/"
                 
                 declare -a SCRIPTS=(
                                     "azure-cli.sh"
