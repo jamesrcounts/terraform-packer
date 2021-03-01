@@ -111,6 +111,7 @@ stages:
                 done  
             
           - task: AzureCLI@2
+            enabled: false
             displayName: 'Build Bootstrap Image'
             inputs:
               azureSubscription: 'Azure'
@@ -159,9 +160,11 @@ stages:
               script: |
                 set -euo pipefail
                 
-                echo ${TFE_TOKEN} > ~/.terraform.d/credentials.tfrc.json
+                echo ${TFE_CREDENTIALS} > ~/.terraform.d/credentials.tfrc.json
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
+            env:
+              TFE_CREDENTIALS: $(TFE_TOKEN)
 
           - task: Bash@3
             displayName: 'Terraform Init'
