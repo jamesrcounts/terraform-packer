@@ -258,6 +258,12 @@ stages:
           #     PACKER_LOG_PATH: $(Build.ArtifactStagingDirectory)/packer-log.txt
           #     SIG_IMAGE_VERSION: $(Build.BuildNumber)
 
+          - task: Bash@3
+            displayName: 'Install Azure CLI'
+            inputs:
+              targetType: 'inline'
+              script: 'sudo -E sh -c "./infrastructure/images/bootstrap/scripts/installers/azure-cli.sh"'
+            
           - task: AzureCLI@2
             displayName: 'Build Bootstrap Image'
             inputs:
@@ -265,7 +271,7 @@ stages:
               scriptType: 'shell'
               scriptLocation: 'inline'
               script: 'echo "Hello World"'
-              
+
           # - task: PowerShell@2
           #   displayName: 'Output Readme file content'
           #   inputs:
