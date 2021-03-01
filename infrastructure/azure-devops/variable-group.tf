@@ -47,7 +47,7 @@ resource "azuredevops_variable_group" "variablegroup" {
   variable {
     is_secret = true
     name      = "TFE_TOKEN"
-    value     = local.tfe_token
+    value     = base64encode(local.tfe_token)
   }
 
   variable {
