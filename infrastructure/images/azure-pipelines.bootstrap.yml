@@ -298,6 +298,7 @@ stages:
                 packer build    -var "managed_image_name=bootstrap-$(Build.BuildNumber)" \
                                 -var "managed_image_resource_group_name=${AZURE_RESOURCE_GROUP}" \
                                 -var "location=${AZURE_LOCATION}" \
+                                -var "sig_image_version=$(Build.BuildNumber)" \
                                 ${TEMPLATE_PATH} 
 
                 #                 -var "client_id=$ClientId" \
