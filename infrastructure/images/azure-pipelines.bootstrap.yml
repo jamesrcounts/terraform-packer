@@ -275,7 +275,11 @@ stages:
               azureSubscription: 'Azure'
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
-              inlineScript: 'echo "Hello World"'
+              inlineScript: |
+                set -euo pipefail
+                
+                echo "Show Packer Version"
+                packer --version
 
           # - task: PowerShell@2
           #   displayName: 'Output Readme file content'
