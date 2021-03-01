@@ -113,7 +113,7 @@ stages:
                 done  
             
           - task: AzureCLI@2
-            enabled: false
+            enabled: true
             displayName: 'Build Bootstrap Image'
             inputs:
               azureSubscription: 'Azure'
@@ -182,8 +182,8 @@ stages:
                 set -euo pipefail
 
                 # Terraform Cloud doesn't allow the -var switch
-                echo -e "shared_image_version = \"0.1.53\"" > variables.auto.tfvars
-                # echo -e "shared_image_version = \"$(Build.BuildNumber)\"" > variables.auto.tfvars
+                # echo -e "shared_image_version = \"0.1.53\"" > variables.auto.tfvars
+                echo -e "shared_image_version = \"$(Build.BuildNumber)\"" > variables.auto.tfvars
                 
                 # Creates a plan that must be approved in Terraform Cloud
                 terraform apply
