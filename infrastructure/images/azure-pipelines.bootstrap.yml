@@ -189,7 +189,8 @@ stages:
               script: |
                 set -euo pipefail
                 
-                terraform plan -out=$(Build.BuildNumber).tfplan
+                # Creates a plan that must be approved in Terraform Cloud
+                terraform apply -input=false
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
                                 
