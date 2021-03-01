@@ -259,15 +259,24 @@ stages:
           #     SIG_IMAGE_VERSION: $(Build.BuildNumber)
 
           - task: Bash@3
-            displayName: 'Install Azure CLI'
+            displayName: 'Install Tools'
             inputs:
               targetType: 'inline'
               script: |
                 set -euo pipefail
                 
-                INSTALLER="./infrastructure/images/bootstrap/scripts/installers/azure-cli.sh"
-                chmod 777 ${INSTALLER}
-                sudo -E sh -c "${INSTALLER}"
+                INSTALLER_FOLDER="./infrastructure/images/bootstrap/scripts/installers"
+                chmod -Rv 777 "${INSTALLER_FOLDER}/*"
+                
+                declare -a SCRIPTS=(
+                                    "azure-cli.sh"
+                                    "packer.sh"
+                                    )
+                
+                for SCRIPT in "${SCRIPTS[@]}"
+                do
+                  sudo -E sh -c "${INSTALLER_FOLDER}/${SCRIPT}"
+                done  
             
           - task: AzureCLI@2
             displayName: 'Build Bootstrap Image'
