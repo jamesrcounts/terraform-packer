@@ -41,21 +41,10 @@
             "arch": "x64",
             "platform" : "linux",
             "versions": [
-                "1.13.*",
                 "1.14.*",
                 "1.15.*"
             ],
             "default": "1.15.*"
-        },
-        {
-            "name": "boost",
-            "url" : "https://raw.githubusercontent.com/actions/boost-versions/main/versions-manifest.json",
-            "platform" : "linux",
-            "platform_version": "18.04",
-            "arch": "x64",
-            "versions": [
-                "1.72.0"
-            ]
         },
         {
             "name": "Ruby",
@@ -68,22 +57,8 @@
                 "2.7.*",
                 "3.0.*"
             ]
-        },
-        {
-            "name": "CodeQL",
-            "platform" : "linux",
-            "arch": "x64",
-            "versions": [
-                "*"
-            ]
         }
     ],
-    "java": {
-        "default": "8",
-        "versions": [
-            "8", "11", "12"
-        ]
-    },
     "android": {
         "platform_min_version": "23",
         "build_tools_min_version": "23.0.1",
@@ -116,13 +91,6 @@
         {
             "name": "az",
             "versions": [
-                "1.0.0",
-                "1.6.0",
-                "2.3.2",
-                "2.6.0",
-                "2.8.0",
-                "3.1.0",
-                "3.5.0",
                 "3.8.0",
                 "4.3.0",
                 "4.4.0",
@@ -139,7 +107,6 @@
             "dpkg",
             "fakeroot",
             "gnupg2",
-            "imagemagick",
             "iproute2",
             "iputils-ping",
             "lib32z1",
@@ -148,11 +115,7 @@
             "libcurl3",
             "libgbm-dev",
             "libgconf-2-4",
-            "libgsl-dev",
             "libgtk-3-0",
-            "libmagic-dev",
-            "libmagickcore-dev",
-            "libmagickwand-dev",
             "libsecret-1-dev",
             "libsqlite3-dev",
             "libunwind8",
@@ -160,7 +123,6 @@
             "libxss1",
             "locales",
             "openssh-client",
-            "p7zip-rar",
             "pkg-config",
             "rpm",
             "texinfo",
@@ -279,48 +241,5 @@
             "7.4",
             "8.0"
         ]
-    },
-    "rubygems": [],
-    "node_modules": [
-        {
-            "name": "grunt",
-            "command": "grunt"
-        },
-        {
-            "name": "gulp",
-            "command": "gulp"
-        },
-        {
-            "name": "n",
-            "command": "n"
-        },
-        {
-            "name": "parcel-bundler",
-            "command": "parcel"
-        },
-        {
-            "name": "typescript",
-            "command": "tsc"
-        },
-        {
-            "name": "newman",
-            "command": "newman"
-        },
-        {
-            "name": "vercel",
-            "command": "vercel"
-        },
-        {
-            "name": "webpack",
-            "command": "webpack"
-        },
-        {
-            "name": "webpack-cli",
-            "command": "webpack-cli"
-        },
-        {
-            "name": "netlify-cli",
-            "command": "netlify"
-        }
-    ]
+    }
 }
