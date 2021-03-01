@@ -158,7 +158,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                set -euo pipefail
+                set -euox pipefail
 
                 mkdir -p ~/.terraform.d
                 echo ${TFE_CREDENTIALS} > ~/.terraform.d/credentials.tfrc.json
