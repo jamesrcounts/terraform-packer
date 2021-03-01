@@ -28,7 +28,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "azp_agents" {
       public_ip_address {
         idle_timeout_in_minutes = 4
         name                    = "public"
-        # public_ip_prefix_id     = azurerm_public_ip_prefix.pib.id
       }
     }
   }
