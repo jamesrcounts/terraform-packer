@@ -173,10 +173,25 @@ stages:
             displayName: 'Terraform Init'
             inputs:
               targetType: 'inline'
-              script: 'terraform init -input=false'
+              script: |
+                set -euo pipefail
+                
+                terraform init -input=false
+                terraform validate
+                terraform -v
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
 
+          - task: Bash@3
+            displayName: 'Terraform Plan'
+            inputs:
+              targetType: 'inline'
+              script: |
+                set -euo pipefail
+                
+                terraform plan -o $(Build.BuildNumber).tfplan
+              failOnStderr: true
+              workingDirectory: infrastructure/azure/agents
                                 
           # - task: AzureCLI@2
           #   displayName: 'Clean up resources'
