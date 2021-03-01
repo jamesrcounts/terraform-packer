@@ -262,15 +262,20 @@ stages:
             displayName: 'Install Azure CLI'
             inputs:
               targetType: 'inline'
-              script: 'sudo -E sh -c "./infrastructure/images/bootstrap/scripts/installers/azure-cli.sh"'
+              script: |
+                set -euo pipefail
+                
+                INSTALLER="./infrastructure/images/bootstrap/scripts/installers/azure-cli.sh"
+                chmod 777 ${INSTALLER}
+                sudo -E sh -c "${INSTALLER"
             
           - task: AzureCLI@2
             displayName: 'Build Bootstrap Image'
             inputs:
               azureSubscription: 'Azure'
-              scriptType: 'shell'
-              scriptLocation: 'inline'
-              script: 'echo "Hello World"'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: 'echo "Hello World"'
 
           # - task: PowerShell@2
           #   displayName: 'Output Readme file content'
