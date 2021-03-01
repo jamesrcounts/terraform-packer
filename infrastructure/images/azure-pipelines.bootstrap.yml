@@ -10,6 +10,8 @@ variables:
   - group: terraform-packer
   - name: DEBIAN_FRONTEND
     value: noninteractive
+  - name: TF_IN_AUTOMATION
+    value: true
     
 stages:
   - stage: 'Bootstrap'
