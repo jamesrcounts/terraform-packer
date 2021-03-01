@@ -113,7 +113,7 @@ stages:
                 done  
             
           - task: AzureCLI@2
-            enabled: false
+            enabled: true
             displayName: 'Build Bootstrap Image'
             inputs:
               azureSubscription: 'Azure'
@@ -141,16 +141,6 @@ stages:
                                 -var "subscription_id=${AZURE_SUBSCRIPTION}" \
                                 -var "tenant_id=${tenantId}" \
                                 ${TEMPLATE_PATH} 
-
-                                #                 -var "install_password=$InstallPassword" \
-                #                 -var "github_feed_token=$GitHubFeedToken" \
-                #                 -var "storage_account=$StorageAccount" \
-                #                 -var "temp_resource_group_name=$TempResourceGroupName" \
-                #                 -var "virtual_network_name=$VirtualNetworkName" \
-                #                 -var "virtual_network_resource_group_name=$VirtualNetworkRG" \
-                #                 -var "virtual_network_subnet_name=$VirtualNetworkSubnet" \
-                #                 -var "run_validation_diskspace=$env:RUN_VALIDATION_FLAG" \
-                #                 $TemplatePath 
               addSpnToEnvironment: true
             env:
               TEMPLATE_PATH: "./infrastructure/images/bootstrap/ubuntu1804.bootstrapper.json"
@@ -192,7 +182,8 @@ stages:
                 set -euo pipefail
                 
                 # Creates a plan that must be approved in Terraform Cloud
-                terraform apply -input=false
+                terraform apply -input=false \
+                  -var "shared_image_version=$(Build.BuildNumber)"
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
                                 
