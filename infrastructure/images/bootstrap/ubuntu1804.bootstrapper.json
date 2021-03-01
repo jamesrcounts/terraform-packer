@@ -65,7 +65,8 @@
             "scripts": [
                 "{{template_dir}}/scripts/installers/azure-cli.sh",
                 "{{template_dir}}/scripts/installers/basic.sh",
-                "{{template_dir}}/scripts/installers/packer.sh"
+                "{{template_dir}}/scripts/installers/packer.sh",
+                "{{template_dir}}/scripts/installers/terraform.sh"
             ],
             "environment_vars": [
                 "DEBIAN_FRONTEND=noninteractive"
