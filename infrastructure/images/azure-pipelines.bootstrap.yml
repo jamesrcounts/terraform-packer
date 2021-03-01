@@ -161,7 +161,8 @@ stages:
                 set -euox pipefail
 
                 mkdir -p ~/.terraform.d
-                echo ${TFE_CREDENTIALS} > ~/.terraform.d/credentials.tfrc.json
+
+                $(echo ${TFE_CREDENTIALS} | base64 --decode) > ~/.terraform.d/credentials.tfrc.json
               failOnStderr: true
               workingDirectory: infrastructure/azure/agents
             env:
